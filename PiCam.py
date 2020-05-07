@@ -129,7 +129,7 @@ class Wheesh:
         kernel = np.array([[0.272, 0.534, 0.131],
                            [0.349, 0.686, 0.168],
                            [0.393, 0.769, 0.189]])
-        return cv2.filter2D(image, -1, kernel)
+        self.edited_image =  cv2.filter2D(image, -1, kernel)
 
     def spreadLookupTable(self, x, y):
         spline = UnivariateSpline(x, y)
@@ -144,7 +144,7 @@ class Wheesh:
         red_channel, green_channel, blue_channel = cv2.split(image)
         red_channel = cv2.LUT(red_channel, increaseLookupTable).astype(np.uint8)
         blue_channel = cv2.LUT(blue_channel, decreaseLookupTable).astype(np.uint8)
-        return cv2.merge((red_channel, green_channel, blue_channel))
+        self.edited_image = cv2.merge((red_channel, green_channel, blue_channel))
 
     def cold_image(self, image):
         print "cold"
@@ -155,11 +155,23 @@ class Wheesh:
         red_channel, green_channel, blue_channel = cv2.split(image)
         red_channel = cv2.LUT(red_channel, decreaseLookupTable).astype(np.uint8)
         blue_channel = cv2.LUT(blue_channel, increaseLookupTable).astype(np.uint8)
-        return cv2.merge((red_channel, green_channel, blue_channel))
+        self.edited_image = cv2.merge((red_channel, green_channel, blue_channel))
 
     def gray(self, image):
         print "gray"
-        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    def adjust_brightness(self, image, mode):
+        print "brighter lol"
+    
+    def adjust_blur(self, image, mode):
+        print "blur lol"
+
+    def adjust_contrast(self, image, mode):
+        print "contrast"
+    
+    def adjust_saturation(self, image, mode):
+        print "saturation"
 
     ####### SCREEN UPDATES ####################################
 
@@ -179,7 +191,6 @@ class Wheesh:
         print "unimplemented"
 
     def blit_main_menu(self):
-        print "hi"
         self.screen.fill(WHITE)
         self.blit_text("filter", (260, 60))
         self.blit_text("adjust", (80, 60))
@@ -217,9 +228,25 @@ class Wheesh:
         self.blit_text("common object detection", (120, 180))
         pygame.display.update()
     
+    def blit_save_menu(self):
+        self.screen.fill(WHITE)
+        self.blit_text("Save?", (120, 20))
+        self.blit_text("YES", (120, 60))
+        self.blit_text("NO", (120, 180))
+        pygame.display.update()
+    
+    def blit_upload_menu(self):
+        self.screen.fill(WHITE)
+        self.blit_text("Upload?", (120, 20))
+        self.blit_text("YES", (120, 60))
+        self.blit_text("NO", (120, 180))
+        pygame.display.update()
+    
     def blit_adjust_bar(self):
-        self.blit_text("emotion detection", (120, 60))
-        self.blit_text("common object detection", (120, 180))
+        pygame.draw.rect(screen, WHITE, (0,200, 320, 40))
+        self.blit_text("+", (30, 220))
+        self.blit_text("-", (280, 220))
+        self.blit_text("done", (140, 220))
         pygame.display.update()
 
     ####### EVENT HANDLING ####################################
@@ -244,26 +271,89 @@ class Wheesh:
                     return 4
         return 0
 
+    # handle contrast bar press
+    def get_bar_press(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif(event.type is MOUSEBUTTONDOWN):
+                pos = pygame.mouse.get_pos()
+            elif(event.type is MOUSEBUTTONUP):
+                pos = pygame.mouse.get_pos()
+                x, y = pos
+                # quit button (before game)
+                if x < 70 and y > 200 :
+                    return 1
+                elif x > 250 and y > 200:
+                    return 2
+                elif y > 200 and x in range(50,250):
+                    return 3
+        return 0
+
     def handle_filter_menu(self, image):
         quad = self.get_quadrant()
         if quad == 4:
-            print "gray"
-            edited_image = self.gray(image)
-            return edited_image, False
+            self.gray(image)
+            return False
         elif quad == 2:
-            print "sepia"
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            edited_image = self.sepia(image)
-            return edited_image, False
+            self.sepia(image)
+            return  False
         elif quad == 1:
-            print "warm"
-            edited_image = self.warm_image(image)
-            return edited_image, False
+            self.warm_image(image)
+            return  False
         elif quad == 3:
-            print "cool"
-            edited_image = self.cold_image(image)
-            return edited_image, False
-        return image, True
+            self.cold_image(image)
+            return False
+        return True
+    
+    def handle_contrast_bar(self, image, adjust_method):
+        self.blit_adjust_bar()
+        option = self.get_bar_press()
+        if option == 1:
+            adjust_method(self, image, 0)
+            print "plus"
+            return False
+        elif option == 2:
+            adjust_method(self, image, 1)
+            print "minus"
+            return False
+        elif option == 3:
+            print "submit"
+            return True
+        return False
+
+    def handle_adjust_menu(self, image):
+        quad = self.get_quadrant()
+        if quad > 0:
+            self.blit_image(image,(0,0))
+            self.blit_adjust_bar()
+
+        if quad == 4:
+            done_adjusting = False
+            while not done_adjusting:
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+            return False
+
+        elif quad == 2:
+            done_adjusting = False
+            while not done_adjusting:
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+            return False
+
+        elif quad == 1:
+            done_adjusting = False
+            while not done_adjusting:
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+            return False
+
+        elif quad == 3:
+            done_adjusting = False
+            while not done_adjusting:
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+            return False
+
+        return True
 
     def handle_main_menu(self, image):
         # case switch for each of the different quadrants
@@ -271,25 +361,28 @@ class Wheesh:
         if quad == 4:
             # open adjustment menu
             self.blit_adjust_menu()
-            return image, False
+            adjusting = True
+            while adjusting:
+                adjusting = self.handle_adjust_menu(image)
+            return False
 
         elif quad == 2:
             # open filtering l2 menu
             filtering = True
             self.blit_filter_menu()
             while filtering:
-                image, filtering = self.handle_filter_menu(image)
-            return image, False
+                filtering = self.handle_filter_menu(image)
+            return False
 
         elif quad == 3:
             self.blit_art_menu()
-            return image, False
+            return  False
 
         elif quad == 1:
             self.blit_ml_menu()
-            return image, False
+            return  False
 
-        return image, True
+        return  True
 
 
 ####### MAIN LOOP ####################################
@@ -349,7 +442,8 @@ try:
             main_menu_open = True
             # process menu actions:
             while main_menu_open:
-                w.edited_image, main_menu_open = w.handle_main_menu(w.current_image)
+                main_menu_open = w.handle_main_menu(w.current_image)
+            print "done with menu. showing edited image now"
             w.EnterState2()
 
         # quit at any time
