@@ -166,7 +166,7 @@ class Wheesh:
         beta = level # Brightness control (0-100)
         self.edited_image = cv2.convertScaleAbs(image, beta=beta)
     
-    def adjust_blur(self, image, mode, blur):
+    def adjust_blur(self, image, mode, blur=35):
         print "blur lol"
         # guassian blur
         # self.edited_image = cv2.GaussianBlur(image, (35, 35), 0)
