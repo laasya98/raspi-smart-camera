@@ -161,17 +161,34 @@ class Wheesh:
         print "gray"
         self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    def adjust_brightness(self, image, mode):
+    def adjust_brightness(self, image, mode, level):
         print "brighter lol"
+        beta = level # Brightness control (0-100)
+        self.edited_image = cv2.convertScaleAbs(image, beta=beta)
     
-    def adjust_blur(self, image, mode):
+    def adjust_blur(self, image, mode, blur):
         print "blur lol"
+        # guassian blur
+        # self.edited_image = cv2.GaussianBlur(image, (35, 35), 0)
+        self.edited_image = cv2.GaussianBlur(image, (blur, blur), 0)
 
-    def adjust_contrast(self, image, mode):
+    def adjust_contrast(self, image, mode, level):
         print "contrast"
+        alpha = level
+        alpha = 1.5 # Contrast control (1.0-3.0)
+        self.edited_image = cv2.convertScaleAbs(image, alpha=alpha)
     
     def adjust_saturation(self, image, mode):
         print "saturation"
+        satadj = 50 #idk what a good amount is
+        imghsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype("float32")
+        (h, s, v) = cv2.split(imghsv)
+        s = s*satadj
+        s = np.clip(s,0,255)
+        imghsv = cv2.merge([h,s,v])
+        imgrgb = cv2.cvtColor(imghsv.astype("uint8"), cv2.COLOR_HSV2RGB)
+        self.edited_image = imgrgb
+
 
     ####### SCREEN UPDATES ####################################
 
