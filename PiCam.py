@@ -12,6 +12,7 @@ import picamera
 from picamera import PiCamera
 import cv2
 from scipy.interpolate import UnivariateSpline
+from simple_image_commands import *
 
 
 # os.putenv('SDL_VIDEODRIVER', 'fbcon')
@@ -43,8 +44,6 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 screen.fill(BLACK)
 
 #####################Class Definition#####################
-
-
 class Wheesh:
     def __init__(self):
         self.camera = PiCamera()
@@ -67,9 +66,6 @@ class Wheesh:
 
         # 0:free view, 1:captured picture display (show orignal), 2: edited image
         # 3:menu
-        # jk, 3:holds all the menus
-        # 8:Cloud
-
 
         # adjustment parameters
         self.alpha = 0
@@ -123,7 +119,7 @@ class Wheesh:
             image2 = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
         return pygame.image.frombuffer(image2.tostring(), image2.shape[1::-1], "RGB")
 
-    # Taken from building instagram-like filters in python
+    # Filter menu tasks: Taken from building instagram-like filters in python
     def sepia(self, image):
         print "sepia"
         kernel = np.array([[0.272, 0.534, 0.131],
@@ -160,7 +156,25 @@ class Wheesh:
     def gray(self, image):
         print "gray"
         self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # "Other" menu tasks
+    def restore(self):
+        print "revert changes"
+        self.edited_image = self.current_image
     
+    def vectorize(self, image):
+        print "vectored"
+        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    def eight_bit(self, image):
+        print "8bit"
+        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    def edge(self, image):
+        print "edge"
+        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Adjust menu tasks    
     def adjust_brightness(self, image, mode, level):
         print "brighter lol"
         beta = level # Brightness control (0-100)
@@ -324,6 +338,27 @@ class Wheesh:
             return False
         return True
     
+    def handle_save_menu(self, image):
+        quad = self.get_quadrant()
+        if quad == 4 or  quad == 2:
+            # save image
+            return  False
+        elif quad == 1 or quad == 3:
+            # do nothing
+            return False
+        return True
+    
+    def handle_upload_menu(self, image):
+        quad = self.get_quadrant()
+        if quad == 4 or  quad == 2:
+            # upload image
+            return  False
+        elif quad == 1 or quad == 3:
+            # do nothing
+            return False
+        return True
+
+
     def handle_contrast_bar(self, image, adjust_method):
         self.blit_adjust_bar()
         option = self.get_bar_press()
@@ -355,19 +390,19 @@ class Wheesh:
         elif quad == 2:
             done_adjusting = False
             while not done_adjusting:
-                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_blur)
             return False
 
         elif quad == 1:
             done_adjusting = False
             while not done_adjusting:
-                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_contrast)
             return False
 
         elif quad == 3:
             done_adjusting = False
             while not done_adjusting:
-                done_adjusting = self.handle_contrast_bar(image, self.adjust_brightness)
+                done_adjusting = self.handle_contrast_bar(image, self.adjust_saturation)
             return False
 
         return True
@@ -433,8 +468,19 @@ try:
 
             if (not GPIO.input(17)):
                 # todo: open save menu
+                w.blit_save_menu()
+                time.sleep(1)
+                save_menu_open = True
+                # process save menu actions:
+                # while save_menu_open:
+                #     save_menu_open = w.handle_save_menu_open(w.edited_image)
+                w.blit_upload_menu()
+                upload_menu_open = True
+                time.sleep(1)
+                # process save menu actions:
+                # while upload_menu_open:
+                #     upload_menu_open = w.handle_upload_menu_open(w.edited_image)
                 w.EnterState0()
-
 
         # edited picture display (show edited)
         if w.CurrMode() == 2:
@@ -450,6 +496,18 @@ try:
 
             if (not GPIO.input(17)):
                 # todo: open save menu
+                w.blit_save_menu()
+                time.sleep(1)
+                save_menu_open = True
+                # process save menu actions:
+                # while save_menu_open:
+                #     save_menu_open = w.handle_save_menu_open(w.edited_image)
+                w.blit_upload_menu()
+                upload_menu_open = True
+                time.sleep(1)
+                # process save menu actions:
+                # while upload_menu_open:
+                #     upload_menu_open = w.handle_upload_menu_open(w.edited_image)
                 w.EnterState0()
 
 

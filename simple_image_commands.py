@@ -8,13 +8,10 @@ ACCESS_KEY_ID = 'AKIA56JHVDHF24AYYC6Q'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'raspi-smart-camera'
 
-def test_upload():
-    local_filename = "/home/pi/raspi-smart-camera/img0.jpg"
-    s3_file_name = "test_img.jpg"
+def test_upload(local_filename = "/home/pi/raspi-smart-camera/img0.jpg", s3_file_name = "test_img.jpg"):
+    
     #note the s3 filename/path is set differently and has to be listed manually
-
     data = open(local_filename, 'rb')
-
     s3 = boto3.resource(
         's3',
         aws_access_key_id=ACCESS_KEY_ID,
@@ -22,7 +19,7 @@ def test_upload():
         # config=Config(signature_version='s3v4')
     )
     try:
-        s3.Bucket(BUCKET_NAME).put_object(Key="test_folder/" + s3_file_name, Body=data)
+        s3.Bucket(BUCKET_NAME).put_object(Key="upload_folder/" + s3_file_name, Body=data)
         logging.info("Successfully uploaded file {} to S3 bucket {}/{}.".format(local_filename, BUCKET_NAME, s3_file_name))
 
     except Exception as e:
@@ -30,7 +27,7 @@ def test_upload():
 
     print ("Upload Done")
 
-def test_download():
+def test_download(s3_file_name = "test_folder/test_img.jpg", local_download_path = "test_img.jpg" ):
     # S3 Connect
     s3 = boto3.resource(
         's3',
@@ -39,8 +36,7 @@ def test_download():
         # config=Config(signature_version='s3v4')
     )
 
-    s3_file_name = "test_folder/test_img.jpg"
-    local_download_path = "test_img.jpg" #include the file name
+    #include the file name
 
     # Image download
     s3.Bucket(BUCKET_NAME).download_file(s3_file_name, local_download_path); # Change the second part
@@ -58,5 +54,5 @@ def test_download():
 # 5. Finally, store the downloaded file somewhere and show blit it
 
 
-#test_upload()
-test_download()
+# test_upload()
+# test_download()
