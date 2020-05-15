@@ -4,13 +4,13 @@ import boto3
 import logging
 # from botocore.client import Config
 
-ACCESS_KEY_ID = ''
-ACCESS_SECRET_KEY = ''
+ACCESS_KEY_ID = 'AKIA56JHVDHF24AYYC6Q'
+ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'raspi-smart-camera'
 
 def test_upload():
-    local_filename = ""
-    s3_file_name = ""
+    local_filename = "/home/pi/raspi-smart-camera/img0.jpg"
+    s3_file_name = "test_img.jpg"
     #note the s3 filename/path is set differently and has to be listed manually
 
     data = open(local_filename, 'rb')
@@ -39,8 +39,8 @@ def test_download():
         # config=Config(signature_version='s3v4')
     )
 
-    s3_file_name = ""
-    local_download_path = "/test.png" #include the file name
+    s3_file_name = "test_folder/test_img.jpg"
+    local_download_path = "test_img.jpg" #include the file name
 
     # Image download
     s3.Bucket(BUCKET_NAME).download_file(s3_file_name, local_download_path); # Change the second part
@@ -58,5 +58,5 @@ def test_download():
 # 5. Finally, store the downloaded file somewhere and show blit it
 
 
-test_upload()
+#test_upload()
 test_download()
