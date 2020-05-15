@@ -328,12 +328,12 @@ class Wheesh:
         self.blit_adjust_bar()
         option = self.get_bar_press()
         if option == 1:
-            adjust_method(self, image, 0)
             print "plus"
+            adjust_method(image, 0, 0)
             return False
         elif option == 2:
-            adjust_method(self, image, 1)
             print "minus"
+            adjust_method(image, 1, 0)
             return False
         elif option == 3:
             print "submit"
@@ -459,7 +459,7 @@ try:
             main_menu_open = True
             # process menu actions:
             while main_menu_open:
-                main_menu_open = w.handle_main_menu(w.current_image)
+                main_menu_open = w.handle_main_menu(w.edited_image)
             print "done with menu. showing edited image now"
             w.EnterState2()
 
