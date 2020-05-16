@@ -62,6 +62,7 @@ class Wheesh:
         self.current_image = []
         self.edited_image = self.current_image
         self.n = 0
+        self.filename = ""
 
 
         # 0:free view, 1:captured picture display (show orignal), 2: edited image
@@ -91,15 +92,16 @@ class Wheesh:
 
     ####### IMAGE PROCESSING ####################################
 
-    def capture(self, rgb, save=False, n=0):
+    def capture(self, rgb, stop=False, n=0):
         stream = io.BytesIO()
         self.camera.capture(stream, resize=(320, 240),
                             use_video_port=True, format='rgb')
         stream.seek(0)
         stream.readinto(self.rgb)
 
-        if save:
+        if stop:
             self.camera.capture("img"+str(self.n)+".jpg")
+            self.filename = "img"+str(self.n)+"_edited.jpg"
             self.inc()
             stream.close()
 
@@ -113,9 +115,10 @@ class Wheesh:
     def pygamify(self, image):
         # Convert cvimage into a pygame image
         # TODO: make this not a try catch
-        try:
+        # print np.shape(image)
+        if len(np.shape(image)) == 3:
             image2 = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        except:
+        else:
             image2 = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
         return pygame.image.frombuffer(image2.tostring(), image2.shape[1::-1], "RGB")
 
@@ -162,37 +165,54 @@ class Wheesh:
         print "revert changes"
         self.edited_image = self.current_image
     
-    def vectorize(self, image):
-        print "vectored"
-        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    def cluster(self, image):
+        print "clustering"
+        # single channel as float
+        Z = np.float32(image.reshape((-1,3)))
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+        K = 8       # number of clusters
+
+        # perform clustering
+        ret, label, center = cv2.kmeans(Z, K, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+
+        # back to uint8
+        center = np.uint8(center)
+        result = center[label.flatten()].reshape((image.shape))
+        self.edited_image = result
     
     def eight_bit(self, image):
         print "8bit"
-        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # scale image down with linear interpolation, scale back up with nearest neighbors
+        size = image.shape[:2]
+        downsize = (320/15, 240/16)
+        scaled_down = cv2.resize(image, downsize, interpolation = cv2.INTER_LINEAR)
+        scaled_up = cv2.resize(scaled_down, size, interpolation = cv2.INTER_NEAREST)
+        self.edited_image = scaled_up
 
     def edge(self, image):
         print "edge"
-        self.edited_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # Canny edge detection w/ hysteresis thresholding. Double check that thresholds are good.
+        self.edited_image = cv2.Canny(image, 100, 200)
 
     # Adjust menu tasks    
-    def adjust_brightness(self, image, mode, level):
+    def adjust_brightness(self, image, mode, adj_level):
         print "brighter lol"
         beta = level # Brightness control (0-100)
         self.edited_image = cv2.convertScaleAbs(image, beta=beta)
     
-    def adjust_blur(self, image, mode, blur=35):
+    def adjust_blur(self, image, mode, adj_level=35):
         print "blur lol"
         # guassian blur
         # self.edited_image = cv2.GaussianBlur(image, (35, 35), 0)
         self.edited_image = cv2.GaussianBlur(image, (blur, blur), 0)
 
-    def adjust_contrast(self, image, mode, level):
+    def adjust_contrast(self, image, mode, adj_level):
         print "contrast"
         alpha = level
         alpha = 1.5 # Contrast control (1.0-3.0)
         self.edited_image = cv2.convertScaleAbs(image, alpha=alpha)
     
-    def adjust_saturation(self, image, mode):
+    def adjust_saturation(self, image, mode, adj_level):
         print "saturation"
         satadj = 50 #idk what a good amount is
         imghsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype("float32")
@@ -239,24 +259,24 @@ class Wheesh:
 
     def blit_filter_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("sepia", (260, 60))
-        self.blit_text("noir", (80, 60))
         self.blit_text("warm", (80, 180))
+        self.blit_text("sepia", (260, 60))
         self.blit_text("cool", (260, 180))
+        self.blit_text("noir", (80, 60))
         pygame.display.update()
 
     def blit_art_menu(self):
         self.screen.fill(WHITE)
         self.blit_text("edge", (260, 60))
         self.blit_text("8-bit", (80, 60))
-        self.blit_text("vectorized", (80, 180))
-        self.blit_text("free", (260, 180))
+        self.blit_text("clustered", (80, 180))
+        self.blit_text("restore", (260, 180))
         pygame.display.update()
 
     def blit_ml_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("emotion detection", (120, 60))
-        self.blit_text("common object detection", (120, 180))
+        self.blit_text("emotion recognition", (120, 60))
+        self.blit_text("object detection", (120, 180))
         pygame.display.update()
     
     def blit_save_menu(self):
@@ -323,52 +343,62 @@ class Wheesh:
 
     def handle_filter_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 4:
-            self.gray(image)
-            return False
+        elif quad == 1:
+            self.warm_image(image)
+            return  False
         elif quad == 2:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             self.sepia(image)
             return  False
-        elif quad == 1:
-            self.warm_image(image)
-            return  False
         elif quad == 3:
             self.cold_image(image)
+            return False
+        if quad == 4:
+            self.gray(image)
             return False
         return True
     
     def handle_save_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 4 or  quad == 2:
+        if quad == 1 or  quad == 4:
             # save image
+            print "yes"
+            print quad
+            cv2.imwrite(self.filename, image)
             return  False
-        elif quad == 1 or quad == 3:
+        elif quad == 2 or quad == 3:
             # do nothing
+            print "no"
+            print quad
             return False
         return True
     
     def handle_upload_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 4 or  quad == 2:
+        if quad == 1 or  quad == 4:
             # upload image
+            print "yes"
+            print quad
+            cv2.imwrite(self.filename, image)
+            test_upload(local_filename = self.filename, s3_file_name = self.filename)
             return  False
-        elif quad == 1 or quad == 3:
+        elif quad == 2 or quad == 3:
             # do nothing
+            print quad
+            print "no"
             return False
         return True
-
 
     def handle_contrast_bar(self, image, adjust_method):
         self.blit_adjust_bar()
         option = self.get_bar_press()
         if option == 1:
             print "plus"
-            adjust_method(image, 0, 0)
+            adjust_method(image, 0)
             return False
         elif option == 2:
             print "minus"
-            adjust_method(image, 1, 0)
+            adjust_method(image, 1)
             return False
         elif option == 3:
             print "submit"
@@ -450,7 +480,6 @@ try:
             # take a picture
             if (not GPIO.input(17)):
                 w.capture(w.rgb, True, w.n)
-                w.inc()
                 print("picture taken")
                 w.EnterState1()
 
@@ -472,14 +501,14 @@ try:
                 time.sleep(1)
                 save_menu_open = True
                 # process save menu actions:
-                # while save_menu_open:
-                #     save_menu_open = w.handle_save_menu_open(w.edited_image)
+                while save_menu_open:
+                    save_menu_open = w.handle_save_menu(w.edited_image)
                 w.blit_upload_menu()
                 upload_menu_open = True
                 time.sleep(1)
-                # process save menu actions:
-                # while upload_menu_open:
-                #     upload_menu_open = w.handle_upload_menu_open(w.edited_image)
+                # process upload menu actions:
+                while upload_menu_open:
+                    upload_menu_open = w.handle_upload_menu(w.edited_image)
                 w.EnterState0()
 
         # edited picture display (show edited)
@@ -500,14 +529,14 @@ try:
                 time.sleep(1)
                 save_menu_open = True
                 # process save menu actions:
-                # while save_menu_open:
-                #     save_menu_open = w.handle_save_menu_open(w.edited_image)
+                while save_menu_open:
+                    save_menu_open = w.handle_save_menu(w.edited_image)
                 w.blit_upload_menu()
                 upload_menu_open = True
                 time.sleep(1)
-                # process save menu actions:
-                # while upload_menu_open:
-                #     upload_menu_open = w.handle_upload_menu_open(w.edited_image)
+                # process upload menu actions:
+                while upload_menu_open:
+                    upload_menu_open = w.handle_upload_menu(w.edited_image)
                 w.EnterState0()
 
 
