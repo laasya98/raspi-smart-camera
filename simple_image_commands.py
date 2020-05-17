@@ -4,8 +4,8 @@ import boto3
 import logging
 # from botocore.client import Config
 
-ACCESS_KEY_ID = ''
-ACCESS_SECRET_KEY = ''
+ACCESS_KEY_ID = 'AKIA56JHVDHF24AYYC6Q'
+ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'raspi-smart-camera'
 
 def test_upload(local_filename = "/home/pi/raspi-smart-camera/img0.jpg", s3_file_name = "test_img.jpg"):
