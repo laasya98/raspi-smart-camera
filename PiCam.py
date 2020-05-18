@@ -13,7 +13,9 @@ from picamera import PiCamera
 import cv2
 from scipy.interpolate import UnivariateSpline
 from simple_image_commands import *
-import requests
+import async_fetcher as fetcher
+import grequests
+from requests import async
 
 # os.putenv('SDL_VIDEODRIVER', 'fbcon')
 # os.putenv('SDL_FBDEV', '/dev/fb1')
@@ -120,8 +122,12 @@ class Wheesh:
 
             # TODO: GET request goes here!!!
             try:
-                resp = requests.get("http://ec2-52-90-7-156.compute-1.amazonaws.com:5000/classify/" + self.tag, timeout = .001)
+                # r = fetcher.HttpAsyncRequest("http://ec2-52-90-7-156.compute-1.amazonaws.com:5000/classify/" + self.tag)
+                r = async.get("http://ec2-52-90-7-156.compute-1.amazonaws.com:5000/classify/" + self.tag)
+                res = async.map([r])
+                print "get"
             except:
+                print "did not get"
                 pass
 
     def pygamify(self, image):
@@ -462,13 +468,13 @@ class Wheesh:
 
     def handle_ml_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 1 or  quad == 4:
+        if quad == 2 or  quad == 4:
             # get emotion image by s3 download
             self.blit_message("loading detection...")
             curr_time = time.time()
             while time.time() - curr_time < self.timeout:
                 try:
-                    test_download(local_filename = self.tag+"_emotion.jpg", s3_file_name = "edited/" + self.tag + "_emotion.jpg")
+                    test_download(local_download_path = self.tag+"_emotion.jpg", s3_file_name = "test_folder/" + self.tag + "_emotion.jpg")
                     self.edited_image = cv2.imread(self.tag+"_emotion.jpg")
                     return False
                 except:
@@ -478,14 +484,14 @@ class Wheesh:
             self.blit_message("prediction failed")
             time.sleep(1)
             return  False
-        elif quad == 2 or quad == 3:
+        elif quad == 1 or quad == 3:
             # get mask image
             self.blit_message("loading detection...")
             curr_time = time.time()
             while time.time() - curr_time < self.timeout:
                 try:
-                    test_download(local_filename = self.tag+"_mask.jpg", s3_file_name = "edited/" + self.tag + "_mask.jpg")
-                    self.edited_image = cv2.imread(self.tag+"_mask.jpg")
+                    test_download(local_download_path = self.tag+"_mask.jpg", s3_file_name = "test_folder/" + self.tag + "_mask.jpg")
+                    self.edited_image = cv2.imread(self.tag+"_mask.jpg").resize((320,240,3))
                     return False
                 except:
                     # file doesn't exist yet
@@ -533,24 +539,24 @@ class Wheesh:
     
     def handle_save_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 1 or  quad == 4:
+        if quad == 2 or  quad == 4:
             # save image
             cv2.imwrite(self.filename, image)
             return  False
-        elif quad == 2 or quad == 3:
+        elif quad == 1 or quad == 3:
             # do nothing
             return False
         return True
     
     def handle_upload_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 1 or  quad == 4:
+        if quad == 2 or  quad == 4:
             # upload image
             print quad
             cv2.imwrite(self.filename, image)
             test_upload(local_filename = self.filename, s3_file_name = "edited/" + self.filename)
             return  False
-        elif quad == 2 or quad == 3:
+        elif quad == 1 or quad == 3:
             # do nothing
             print quad
             return False
