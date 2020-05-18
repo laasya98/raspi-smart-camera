@@ -50,11 +50,11 @@ net = model_zoo.get_model('mask_rcnn_resnet50_v1b_coco', pretrained=True)
 #
 # Please beware that `orig_img` is resized to short edge 600px.
 
-im_fname = utils.download('https://github.com/dmlc/web-data/blob/master/' +
-                          'gluoncv/detection/biking.jpg?raw=true',
-                          path='biking.jpg')
+# im_fname = utils.download('https://github.com/dmlc/web-data/blob/master/' +
+                        #   'gluoncv/detection/biking.jpg?raw=true',
+                        #   path='biking.jpg')
                     
-# im_fname = 'biking.jpg'
+im_fname = 'banana.jpeg'
 
 x, orig_img = data.transforms.presets.rcnn.load_test(im_fname)
 
