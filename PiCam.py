@@ -61,8 +61,11 @@ class Wheesh:
         self.rgb = bytearray(320 * 240 * 3)
         self.current_image = []
         self.edited_image = self.current_image
-        self.n = 0
-        self.filename = ""
+        self.n = 5
+        self.curr_filename = ""     # original filename
+        self.filename = ""          # edited filename
+        self.tag = ""               # prefix of filenames without file extension
+        self.timeout = 10           # timeout for ML prediction downloading
 
 
         # 0:free view, 1:captured picture display (show orignal), 2: edited image
@@ -70,8 +73,7 @@ class Wheesh:
 
         # adjustment parameters
         self.contrast = 1              # contrast --> multiplication
-        self.brightness = 0         # brightness --> addition          
-        self.saturation = 50         
+        self.brightness = 0         # brightness --> addition     
 
     def inc(self):
         self.n += 1
@@ -102,7 +104,9 @@ class Wheesh:
 
         if stop:
             self.camera.capture("img"+str(self.n)+".jpg")
+            self.curr_filename  = "img"+str(self.n)+".jpg"
             self.filename = "img"+str(self.n)+"_edited.jpg"
+            self.tag = "img"+str(self.n)
             self.inc()
             stream.close()
 
@@ -112,6 +116,13 @@ class Wheesh:
             self.current_image = cv2.cvtColor(
                 pgi_surf.transpose([1, 0, 2]), cv2.COLOR_RGB2BGR)
             self.edited_image = self.current_image
+            test_upload(self.curr_filename, "upload_folder/"+self.curr_filename)
+
+            # TODO: GET request goes here!!!
+            try:
+                resp = requests.get("http://ec2-52-90-7-156.compute-1.amazonaws.com:5000/classify/" + self.tag, timeout = .001)
+            except:
+                pass
 
     def pygamify(self, image):
         # Convert cvimage into a pygame image
@@ -288,22 +299,22 @@ class Wheesh:
 
     def blit_ml_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("emotion recognition", (120, 60))
-        self.blit_text("object detection", (120, 180))
+        self.blit_text("emotion recognition", (160, 60))
+        self.blit_text("object detection", (160, 180))
         pygame.display.update()
     
     def blit_save_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("Save?", (120, 20))
-        self.blit_text("YES", (120, 60))
-        self.blit_text("NO", (120, 180))
+        self.blit_text("Save Edited Img?", (160, 20))
+        self.blit_text("YES", (160, 60))
+        self.blit_text("NO", (160, 180))
         pygame.display.update()
     
     def blit_upload_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("Upload?", (120, 20))
-        self.blit_text("YES", (120, 60))
-        self.blit_text("NO", (120, 180))
+        self.blit_text("Upload Edited Img?", (160, 20))
+        self.blit_text("YES", (160, 60))
+        self.blit_text("NO", (160, 180))
         pygame.display.update()
     
     def blit_adjust_bar(self):
@@ -311,6 +322,12 @@ class Wheesh:
         self.blit_text("+", (30, 220))
         self.blit_text("-", (280, 220))
         self.blit_text("done", (140, 220))
+        pygame.display.update()
+
+    def blit_message(self, message):
+        # another form of blit text
+        self.screen.fill(WHITE)
+        self.blit_text(message, (160, 120))
         pygame.display.update()
 
     ####### EVENT HANDLING ####################################
@@ -443,6 +460,42 @@ class Wheesh:
 
         return True
 
+    def handle_ml_menu(self, image):
+        quad = self.get_quadrant()
+        if quad == 1 or  quad == 4:
+            # get emotion image by s3 download
+            self.blit_message("loading detection...")
+            curr_time = time.time()
+            while time.time() - curr_time < self.timeout:
+                try:
+                    test_download(local_filename = self.tag+"_emotion.jpg", s3_file_name = "edited/" + self.tag + "_emotion.jpg")
+                    self.edited_image = cv2.imread(self.tag+"_emotion.jpg")
+                    return False
+                except:
+                    # file doesn't exist yet
+                    print "not found. trying again"
+                    continue
+            self.blit_message("prediction failed")
+            time.sleep(1)
+            return  False
+        elif quad == 2 or quad == 3:
+            # get mask image
+            self.blit_message("loading detection...")
+            curr_time = time.time()
+            while time.time() - curr_time < self.timeout:
+                try:
+                    test_download(local_filename = self.tag+"_mask.jpg", s3_file_name = "edited/" + self.tag + "_mask.jpg")
+                    self.edited_image = cv2.imread(self.tag+"_mask.jpg")
+                    return False
+                except:
+                    # file doesn't exist yet
+                    print "not found. trying again"
+                    continue
+            self.blit_message("prediction failed")
+            time.sleep(1)
+            return  False
+        return True
+
     def handle_main_menu(self, image):
         # case switch for each of the different quadrants
         quad = self.get_quadrant()
@@ -471,6 +524,9 @@ class Wheesh:
 
         elif quad == 1:
             self.blit_ml_menu()
+            handling = True
+            while handling:
+                handling = self.handle_ml_menu(image)
             return  False
 
         return  True
@@ -492,7 +548,7 @@ class Wheesh:
             # upload image
             print quad
             cv2.imwrite(self.filename, image)
-            test_upload(local_filename = self.filename, s3_file_name = self.filename)
+            test_upload(local_filename = self.filename, s3_file_name = "edited/" + self.filename)
             return  False
         elif quad == 2 or quad == 3:
             # do nothing
@@ -513,6 +569,10 @@ try:
                 img = pygame.image.frombuffer(w.rgb, (320, 240), 'RGB')
                 w.screen.blit(img, (0, 0))
             except :
+                print "exceptioned"
+                GPIO.cleanup()
+                w.camera.close()
+                quit()
                 continue
             # take a picture
             if (not GPIO.input(17)):
