@@ -4,8 +4,8 @@ import boto3
 import logging
 # from botocore.client import Config
 
-ACCESS_KEY_ID = ''
-ACCESS_SECRET_KEY = ''
+ACCESS_KEY_ID = 'AKIA56JHVDHF24AYYC6Q'
+ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'raspi-smart-camera'
 
 def test_upload():
@@ -30,7 +30,7 @@ def test_upload():
 
     print ("Upload Done")
 
-def test_download():
+def test_download(image_str):
     # S3 Connect
     s3 = boto3.resource(
         's3',
@@ -39,9 +39,9 @@ def test_download():
         # config=Config(signature_version='s3v4')
     )
 
-    s3_file_name = ""
-    local_download_path = "/test.png" #include the file name
-
+    s3_file_name = "upload_folder/" + str(image_str)
+    local_download_path = "images/" + image_str #include the file name
+    print("prebucket")
     # Image download
     s3.Bucket(BUCKET_NAME).download_file(s3_file_name, local_download_path); # Change the second part
     # This is where you want to download it too.
@@ -58,5 +58,5 @@ def test_download():
 # 5. Finally, store the downloaded file somewhere and show blit it
 
 
-test_upload()
-test_download()
+# test_upload()
+test_download("img0_edited.jpg")
