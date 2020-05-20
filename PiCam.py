@@ -15,10 +15,13 @@ from scipy.interpolate import UnivariateSpline
 from simple_image_commands import *
 import requests
 
-# os.putenv('SDL_VIDEODRIVER', 'fbcon')
-# os.putenv('SDL_FBDEV', '/dev/fb1')
-# os.putenv('SDL_MOUSEDRV', 'TSLIB') # Track Mouse clicks on piTFT
-# os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
+
+
+
+os.putenv('SDL_VIDEODRIVER', 'fbcon')
+os.putenv('SDL_FBDEV', '/dev/fb1')
+os.putenv('SDL_MOUSEDRV', 'TSLIB') # Track Mouse clicks on piTFT
+os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
 
 ####### INITIALIZATION ####################################
 
@@ -31,7 +34,7 @@ GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 pygame.init()
-pygame.mouse.set_visible(True)
+pygame.mouse.set_visible(False)
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -49,6 +52,7 @@ class Wheesh:
         self.camera = PiCamera()
         # we can make this the same as ScreenWidth/Height if u want, or have the image take up a different size
         self.camera.resolution = (320, 240)
+        self.camera.rotation = 270
 
         self.menu_font = pygame.font.SysFont("caveat", 30)
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -62,7 +66,11 @@ class Wheesh:
         self.current_image = []
         self.edited_image = self.current_image
         self.n = 0
-        self.filename = ""
+        self.curr_filename = ""     # original filename
+        self.filename = ""          # edited filename
+        self.tag = ""               # prefix of filenames without file extension
+        self.timeout = 200          # timeout for ML prediction downloading
+        self.start_time = str(int(time.time())) + "_"
 
 
         # 0:free view, 1:captured picture display (show orignal), 2: edited image
@@ -70,8 +78,7 @@ class Wheesh:
 
         # adjustment parameters
         self.contrast = 1              # contrast --> multiplication
-        self.brightness = 0         # brightness --> addition          
-        self.saturation = 50         
+        self.brightness = 0         # brightness --> addition     
 
     def inc(self):
         self.n += 1
@@ -92,6 +99,15 @@ class Wheesh:
         self._mainState = 3
 
     ####### IMAGE PROCESSING ####################################
+    def make_request(self, im, kind):
+        if kind == "mask":
+            resp = requests.get("http://ec2-34-205-78-136.compute-1.amazonaws.com:5000/mask/" + self.tag, timeout=150)
+        elif kind == "emotion":
+            resp = requests.get("http://ec2-34-205-78-136.compute-1.amazonaws.com:5000/emotion/" + self.tag, timeout=25)
+        else:
+            print "not a valid req type"
+            resp = ":("
+        return resp
 
     def capture(self, rgb, stop=False, n=0):
         stream = io.BytesIO()
@@ -101,8 +117,10 @@ class Wheesh:
         stream.readinto(self.rgb)
 
         if stop:
-            self.camera.capture("img"+str(self.n)+".jpg")
-            self.filename = "img"+str(self.n)+"_edited.jpg"
+            self.camera.capture("img_"+self.start_time+ str(self.n)+".jpg")
+            self.curr_filename  = "img_"+self.start_time+ str(self.n)+".jpg"
+            self.filename = "img_"+self.start_time+ str(self.n)+"_edited.jpg"
+            self.tag = "img_"+self.start_time+ str(self.n)
             self.inc()
             stream.close()
 
@@ -112,11 +130,10 @@ class Wheesh:
             self.current_image = cv2.cvtColor(
                 pgi_surf.transpose([1, 0, 2]), cv2.COLOR_RGB2BGR)
             self.edited_image = self.current_image
+            test_upload(self.curr_filename, "upload_folder/"+self.curr_filename)
 
     def pygamify(self, image):
         # Convert cvimage into a pygame image
-        # TODO: make this not a try catch
-        # print np.shape(image)
         if len(np.shape(image)) == 3:
             image2 = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         else:
@@ -250,7 +267,6 @@ class Wheesh:
         self.screen.blit(pgi, pos)
         pygame.display.flip()
 
-    # TODO: blit the little icons to make the display pretty on menu
     def blit_icon(self, img_path, pos):
         print "unimplemented"
 
@@ -288,22 +304,22 @@ class Wheesh:
 
     def blit_ml_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("emotion recognition", (120, 60))
-        self.blit_text("object detection", (120, 180))
+        self.blit_text("emotion recognition", (160, 60))
+        self.blit_text("object detection", (160, 180))
         pygame.display.update()
     
     def blit_save_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("Save?", (120, 20))
-        self.blit_text("YES", (120, 60))
-        self.blit_text("NO", (120, 180))
+        self.blit_text("Save Edited Img?", (160, 20))
+        self.blit_text("YES", (160, 60))
+        self.blit_text("NO", (160, 180))
         pygame.display.update()
     
     def blit_upload_menu(self):
         self.screen.fill(WHITE)
-        self.blit_text("Upload?", (120, 20))
-        self.blit_text("YES", (120, 60))
-        self.blit_text("NO", (120, 180))
+        self.blit_text("Upload Edited Img?", (160, 20))
+        self.blit_text("YES", (160, 60))
+        self.blit_text("NO", (160, 180))
         pygame.display.update()
     
     def blit_adjust_bar(self):
@@ -311,6 +327,12 @@ class Wheesh:
         self.blit_text("+", (30, 220))
         self.blit_text("-", (280, 220))
         self.blit_text("done", (140, 220))
+        pygame.display.update()
+
+    def blit_message(self, message):
+        # another form of blit text
+        self.screen.fill(WHITE)
+        self.blit_text(message, (160, 120))
         pygame.display.update()
 
     ####### EVENT HANDLING ####################################
@@ -443,6 +465,68 @@ class Wheesh:
 
         return True
 
+    def handle_ml_menu(self, image):
+        quad = self.get_quadrant()
+        if quad == 2 or  quad == 4:
+            # get emotion image by s3 download
+            self.blit_message("loading detection...")
+            try:
+                print self.tag
+                test_download(local_download_path = self.tag+"_emotion.jpg", s3_file_name = "test_folder/" + self.tag + "_emotion.jpg")
+                self.edited_image = cv2.imread(self.tag+"_emotion.jpg")
+                return False
+            except Exception as e:
+                # file doesn't exist yet
+                code = 404
+                current_time = time.time()
+                while code == 404 and time.time()-current_time < self.timeout:
+                    curr_time = time.time()
+                    try:
+                        resp = self.make_request(self.tag, "emotion")
+                    except Exception as e:
+                        print e
+                    code = resp.status_code
+                    print resp
+                    print time.time()-curr_time
+                    print "get"
+                if code == 404:
+                    self.blit_message("prediction failed :(")
+                    time.sleep(1)
+                else:
+                    test_download(local_download_path = self.tag+"_emotion.jpg", s3_file_name = "test_folder/" + self.tag + "_emotion.jpg")
+                    self.edited_image = cv2.imread(self.tag+"_emotion.jpg")
+                return False
+            
+        elif quad == 1 or quad == 3:
+            # get mask image
+            self.blit_message("loading detection...")
+            try:
+                test_download(local_download_path = self.tag+"_mask.jpg", s3_file_name = "test_folder/" + self.tag + "_mask.jpg")
+                self.edited_image = cv2.imread(self.tag+"_mask.jpg")
+                self.edited_image = cv2.resize(self.edited_image, (320,240))
+                return False
+            except Exception as e:
+                # file doesn't exist yet
+                code = 404
+                current_time = time.time()
+                while code == 404 and time.time()-current_time < self.timeout:
+                    curr_time = time.time()
+                    resp = self.make_request(self.tag, "mask")
+                    code = resp.status_code
+                    print resp
+                    print time.time()-curr_time
+                    print "get"
+                if code == 404:
+                    self.blit_message("prediction failed :(")
+                    time.sleep(1)
+                else:
+                    test_download(local_download_path = self.tag+"_mask.jpg", s3_file_name = "test_folder/" + self.tag + "_mask.jpg")
+                    self.edited_image = cv2.imread(self.tag+"_mask.jpg")
+                    self.edited_image = cv2.resize(self.edited_image, (320,240))
+                return False
+            
+        return True
+
     def handle_main_menu(self, image):
         # case switch for each of the different quadrants
         quad = self.get_quadrant()
@@ -471,30 +555,33 @@ class Wheesh:
 
         elif quad == 1:
             self.blit_ml_menu()
+            handling = True
+            while handling:
+                handling = self.handle_ml_menu(image)
             return  False
 
         return  True
     
     def handle_save_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 1 or  quad == 4:
+        if quad == 2 or  quad == 4:
             # save image
             cv2.imwrite(self.filename, image)
             return  False
-        elif quad == 2 or quad == 3:
+        elif quad == 1 or quad == 3:
             # do nothing
             return False
         return True
     
     def handle_upload_menu(self, image):
         quad = self.get_quadrant()
-        if quad == 1 or  quad == 4:
+        if quad == 2 or  quad == 4:
             # upload image
             print quad
             cv2.imwrite(self.filename, image)
-            test_upload(local_filename = self.filename, s3_file_name = self.filename)
+            test_upload(local_filename = self.filename, s3_file_name = "edited/" + self.filename)
             return  False
-        elif quad == 2 or quad == 3:
+        elif quad == 1 or quad == 3:
             # do nothing
             print quad
             return False
@@ -504,6 +591,7 @@ class Wheesh:
 ####### MAIN LOOP ####################################
 w = Wheesh()
 
+############ MAIN LOOP #########################
 try:
     while True:
         # free view mode: menu isnt open and we aren't on a frame
@@ -513,6 +601,10 @@ try:
                 img = pygame.image.frombuffer(w.rgb, (320, 240), 'RGB')
                 w.screen.blit(img, (0, 0))
             except :
+                print "exceptioned"
+                GPIO.cleanup()
+                w.camera.close()
+                quit()
                 continue
             # take a picture
             if (not GPIO.input(17)):
@@ -576,7 +668,7 @@ try:
                     upload_menu_open = w.handle_upload_menu(w.edited_image)
                 w.EnterState0()
 
-        # effects menu mode
+        # effects main menu mode
         if w.CurrMode() == 3:
             # if main menu is not open
             w.blit_main_menu()
