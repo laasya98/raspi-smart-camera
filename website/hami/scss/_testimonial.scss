@@ -1,0 +1,130 @@
+/* :: 21.0 Testimonial Area CSS */
+
+.hami-testimonial-area {
+    position: relative;
+    z-index: 1;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.testimonial-slide {
+    .owl-dots {
+        @include display-flex(flex);
+        @include align-items-center;
+        @include justify-content-center;
+        margin-top: 50px;
+
+        .owl-dot {
+            @include flex(0 0 8px);
+            max-width: 8px;
+            width: 8px;
+            height: 8px;
+            background-color: #d2e0f8;
+            border-radius: 50%;
+            margin: 0 5px;
+
+            &.active {
+                @include flex(0 0 38px);
+                max-width: 38px;
+                width: 38px;
+                background-color: $primary;
+                border-radius: 8px;
+            }
+        }
+    }
+}
+
+.single-testimonial-area {
+    position: relative;
+    z-index: 1;
+
+    .testimonial-content {
+        @include transition-duration(500ms);
+        position: relative;
+        z-index: 1;
+        padding: 40px;
+        border-radius: 3px;
+        box-shadow: 0 15px 9px 0 rgba(0, 0, 0, 0.08);
+        margin-bottom: 40px;
+
+        @media #{$breakpoint-lg} {
+            padding: 30px;
+        }
+
+        @media #{$breakpoint-xs} {
+            padding: 30px;
+        }
+
+        .ratings-icon {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+
+            .rating {
+                color: #f3b409;
+            }
+        }
+
+        h5 {
+            @include transition-duration(500ms);
+            margin-bottom: 0;
+            color: #707070;
+            line-height: 1.5;
+            font-weight: 400;
+
+            @media #{$breakpoint-lg} {
+                font-size: 16px;
+            }
+
+            @media #{$breakpoint-md} {
+                font-size: 16px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .testimonial-thumbnail-title {
+        position: relative;
+        z-index: 1;
+
+        .testimonial-thumbnail {
+            @include flex(0 0 80px);
+            max-width: 80px;
+            width: 80px;
+            margin-right: 20px;
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        .testimonial-title {
+            h5 {
+                display: block;
+                margin-bottom: 3px;
+            }
+
+            span {
+                font-size: 12px;
+                color: $secondary;
+                display: block;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+        }
+    }
+
+    &:hover,
+    &:focus {
+        .testimonial-content {
+            background-color: $hover;
+
+            h5 {
+                color: $white;
+            }
+        }
+    }
+}

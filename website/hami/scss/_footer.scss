@@ -1,0 +1,253 @@
+/* :: 9.0 Footer CSS */
+
+.footer-area {
+    position: relative;
+    z-index: 1;
+}
+
+.single-footer-widget {
+    position: relative;
+    z-index: 1;
+
+    p {
+        @media #{$breakpoint-lg} {
+            font-size: 14px;
+        }
+    }
+
+    .widget-title {
+        font-size: 22px;
+        color: $heading;
+        margin-bottom: 35px;
+        display: block;
+        text-transform: capitalize;
+
+        @media #{$breakpoint-lg} {
+            font-size: 18px;
+        }
+
+        @media #{$breakpoint-xs} {
+            font-size: 18px;
+        }
+    }
+
+    .social-info {
+        position: relative;
+        z-index: 1;
+        margin-top: 30px;
+
+        a {
+            display: inline-block;
+            font-size: 18px;
+            color: $white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            text-align: center;
+            line-height: 40px;
+
+            @media #{$breakpoint-md} {
+                margin-right: 5px;
+            }
+
+            &.facebook {
+                background-color: #4b62b3;
+            }
+
+            &.twitter {
+                background-color: #03baeb;
+            }
+
+            &.google-plus {
+                background-color: #cb242e;
+            }
+
+            &.instagram {
+                background-color: #057ad7;
+            }
+
+            &.youtube {
+                background-color: #e20000;
+            }
+
+            &:focus,
+            &:hover {
+                background-color: $hover;
+            }
+        }
+    }
+
+    .footer-nav {
+        position: relative;
+        z-index: 1;
+
+        li {
+            a {
+                display: block;
+                margin-bottom: 10px;
+                color: $text;
+                font-size: 16px;
+                font-weight: 400;
+                text-transform: capitalize;
+
+                @media #{$breakpoint-lg} {
+                    font-size: 14px;
+                }
+
+                @media #{$breakpoint-xs} {
+                    font-size: 14px;
+                }
+
+                &:focus,
+                &:hover {
+                    color: $hover;
+                }
+            }
+
+            &:last-child {
+                a {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .nl-form {
+        position: relative;
+        z-index: 1;
+        margin-top: 30px;
+
+        input {
+            width: 100%;
+            height: 50px;
+            background-color: $bg-gray;
+            border-radius: 30px;
+            border: none;
+            padding: 0 40px;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        button {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            top: 0;
+            right: 0;
+            color: $white;
+            background-color: $primary;
+            cursor: pointer;
+            @include transition-duration(500ms);
+
+            &:focus,
+            &:hover {
+                background-color: $heading;
+            }
+        }
+    }
+}
+
+.copywrite-text {
+    position: relative;
+    z-index: 1;
+
+    @media #{$breakpoint-xs} {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    p {
+        font-size: 16px;
+        color: $text;
+        margin-bottom: 0;
+
+        @media #{$breakpoint-lg} {
+            font-size: 14px;
+        }
+
+        @media #{$breakpoint-md} {
+            font-size: 14px;
+        }
+
+        @media #{$breakpoint-xs} {
+            font-size: 12px;
+        }
+
+        a {
+            color: $text;
+            font-size: 16px;
+
+            @media #{$breakpoint-lg} {
+                font-size: 14px;
+            }
+
+            @media #{$breakpoint-md} {
+                font-size: 14px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 12px;
+            }
+
+            &:focus,
+            &:hover {
+                color: $hover;
+            }
+        }
+    }
+}
+
+.bottom-footer-area {
+    position: relative;
+    z-index: 1;
+    padding: 15px 0;
+
+    .payments-methods {
+        @include justify-content-end;
+
+        @media #{$breakpoint-xs} {
+            @include justify-content-center;
+        }
+
+        p {
+            margin-bottom: 0;
+            margin-right: 15px;
+
+            @media #{$breakpoint-lg} {
+                font-size: 14px;
+            }
+
+            @media #{$breakpoint-md} {
+                font-size: 14px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 12px;
+                margin-right: 5px;
+            }
+        }
+
+        i {
+            font-size: 24px;
+            color: $text;
+            margin-right: 5px;
+
+            @media #{$breakpoint-md} {
+                font-size: 20px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 18px;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}

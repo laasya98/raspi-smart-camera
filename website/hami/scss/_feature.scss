@@ -1,0 +1,62 @@
+/* :: 12.0 Features Area CSS */
+
+.hami-features-area {
+    position: relative;
+    z-index: 1;
+
+    .feature-pattern {
+        position: absolute;
+        width: 100%;
+        bottom: -15px;
+        left: 0;
+        right: 0;
+        z-index: 1;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.single-feature-area {
+    position: relative;
+    z-index: 1;
+
+    .feature-icon {
+        @include flex(0 0 80px);
+        max-width: 80px;
+        width: 80px;
+
+        @media #{$breakpoint-xs} {
+            @include flex(0 0 60px);
+            max-width: 60px;
+            width: 60px;
+        }
+
+        i {
+            font-size: 42px;
+            color: $primary;
+        }
+    }
+
+    .feature-text {
+        h5 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            @include transition-duration(500ms);
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    &:hover,
+    &:focus {
+        .feature-text {
+            h5 {
+                color: $hover;
+            }
+        }
+    }
+}

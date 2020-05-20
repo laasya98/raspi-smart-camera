@@ -1,0 +1,85 @@
+/* :: 16.0 About CSS */
+
+.hami--video--area {
+    position: relative;
+    z-index: 1;
+
+    .video-content-area {
+        position: relative;
+        z-index: 1;
+
+        .video-play-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: $primary;
+            color: $white;
+            font-size: 18px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -25px;
+            margin-left: -25px;
+            z-index: 100;
+
+            i {
+                padding-left: 5px;
+            }
+
+            @media #{$breakpoint-xs} {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                line-height: 60px;
+                margin-top: -30px;
+                margin-left: -30px;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: $dark;
+            }
+        }
+    }
+
+    .video-text {
+        position: relative;
+        z-index: 1;
+
+        h2 {
+            font-size: 48px;
+            margin-bottom: 30px;
+
+            @media #{$breakpoint-lg} {
+                font-size: 36px;
+            }
+
+            @media #{$breakpoint-md} {
+                font-size: 24px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 24px;
+            }
+        }
+
+        .video-desc {
+
+            h6 {
+                font-size: 18px;
+                margin-bottom: 15px;
+
+                i {
+                    color: $hover;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

@@ -9,11 +9,10 @@ import cv2
 import time
 from face_classification.src.image_emotion_gender_demo_modified import demo_emotion
 
-
 app = Flask(__name__)
 
-ACCESS_KEY_ID = 'AKIA56JHVDHF24AYYC6Q'
-ACCESS_SECRET_KEY = '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'
+ACCESS_KEY_ID = ''
+ACCESS_SECRET_KEY = ''
 BUCKET_NAME = 'raspi-smart-camera'
 
 jpg = ".jpg"
@@ -21,10 +20,7 @@ jpg = ".jpg"
 def run_mask_model(image_str):
     net = model_zoo.get_model('mask_rcnn_resnet50_v1b_coco', pretrained=True)
     print("downloaded the model")
-
-    # im_fname = utils.download('https://github.com/dmlc/web-data/blob/master/' +
-    #                         'gluoncv/detection/biking.jpg?raw=true',
-    #                         path='biking.jpg')
+    print("Starting Inference")
 
     im_fname = "images/" + image_str + jpg
     x, orig_img = data.transforms.presets.rcnn.load_test(im_fname)
@@ -35,26 +31,32 @@ def run_mask_model(image_str):
 
     print("finished mask classification, making plot")
 
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(10, 10), frameon=False)
     ax = fig.add_subplot(1, 1, 1)
     ax = utils.viz.plot_bbox(orig_img, bboxes, scores, ids,
                             class_names=net.classes, ax=ax)
     print("Plotted the mask model output")
+    # fig.set_size_inches(w,h)
 
-    plt.savefig("images/" + image_str + "_mask" + jpg, bbox_inches='tight')
+    ax.set_axis_off()
+    # fig.add_axes(ax)
+    # ax.imshow(orig_img, aspect='auto')
+
+    plt.savefig("images/" + image_str + "_mask" + jpg, bbox_inches='tight', pad_inches=0)
     print("End of MaskRCNN")
 
 def run_emotion_model(image_str):
     demo_emotion(image_str)
 
 def classify(image_str):
+    print("Starting Classify")
     start = time.time()
     run_mask_model(image_str)
     end1 = time.time()
     print("Execution time for emotion: " + str(end1-start))
     run_emotion_model(image_str)
     end2 = time.time()
-    print("Execution time for mask: " + str(end2-start))
+    print("Execution time for mask: " + str(end2-end1))
 
 def test_upload():
     local_filename = "biker_test.jpg"
@@ -141,18 +143,54 @@ def upload(image_str):
 
     print ("Upload Done")
 
-# doesn't work
-# def detect_emotion(face_image_str):
-#     img = cv2.imread("images/"+str(face_image_str))
-#     # data = open("images/"+str(face_image_str), 'rb')
-#     model = load_model("face_and_emotion_detection/emotion_detector_models/model_v6_23.hdf5")
-#     predicted_class = np.argmax(model.predict(img))
-#     print ("predicted class" + str(predicted_class))
-#     return predicted_class
+def upload_mask(image_str):
+    local_filename1 = "images/" + image_str + "_mask.jpg"
+
+    s3_filename1 = image_str + "_mask.jpg"
+
+    #note the s3 filename/path is set differently and has to be listed manually
+
+    data1 = open(local_filename1, 'rb')
+
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=ACCESS_KEY_ID,
+        aws_secret_access_key=ACCESS_SECRET_KEY,
+    )
+    try:
+        s3.Bucket(BUCKET_NAME).put_object(Key="test_folder/" + s3_filename1, Body=data1)
+        logging.info("Successfully uploaded file {} to S3 bucket {}/{}.".format(local_filename1, BUCKET_NAME, s3_filename1))
+    except Exception as e:
+        print("Error: could not upload file:" + local_filename1 + " to s3:" + str(e))
+
+    print ("Upload Mask Done: " + image_str)
+
+def upload_emotion(image_str):
+    local_filename2 = "images/" + image_str + "_emotion.jpg"
+
+    s3_filename2 = image_str + "_emotion.jpg"
+
+    #note the s3 filename/path is set differently and has to be listed manually
+
+    data2 = open(local_filename2, 'rb')
+
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=ACCESS_KEY_ID,
+        aws_secret_access_key=ACCESS_SECRET_KEY,
+    )
+    try:
+        s3.Bucket(BUCKET_NAME).put_object(Key="test_folder/" + s3_filename2, Body=data2)
+        logging.info("Successfully uploaded file {} to S3 bucket {}/{}.".format(local_filename2, BUCKET_NAME, s3_filename2))
+    except Exception as e:
+        print("Error: could not upload file:" + local_filename2 + " to s3:" + str(e))
+
+    print ("Upload Emotion Done: " + image_str)
+
 
 @app.route("/")
 def hello():
-    return "<h1 style='color:blue'>hiiii!</h1>"
+    return "<h1 style='color:blue'>Welcome to raspi-smart-camera!</h1><h2>Endpoints:</h2><h3>classify, emotion, mask</h3>"
 
 @app.route('/classify/<input_str>')
 def classify_image(input_str):
@@ -165,14 +203,25 @@ def classify_image(input_str):
 
 @app.route('/download/<input_str>')
 def download_image(input_str):
-    print(input_str)
+    print("downloading image: " + input_str)
     test_download(input_str)
     return "tried to download image: " + str(input_str)
 
 @app.route('/emotion/<input_str>')
-def check_emotion(input_str):
-    emotion = detect_emotion(input_str)
-    return emotion
+def emotion(input_str):
+    print("GET Request for /emotion on image: " + input_str)
+    download(input_str)
+    run_emotion_model(input_str)
+    upload_emotion(input_str)
+    return ("Finished Executing Emotion")
+
+@app.route('/mask/<input_str>')
+def mask(input_str):
+    print("GET Request for /mask on image: " + input_str)
+    download(input_str)
+    run_mask_model(input_str)
+    upload_mask(input_str)
+    return "Finished Executing Mask"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

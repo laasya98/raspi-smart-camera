@@ -1,5 +1,4 @@
 import sys
-
 import cv2
 from keras.models import load_model
 import numpy as np
@@ -77,8 +76,8 @@ def demo_emotion(image_str):
             color = (255, 0, 0)
 
         draw_bounding_box(face_coordinates, rgb_image, color)
-        draw_text(face_coordinates, rgb_image, gender_text, color, 0, -20, 1, 2)
-        draw_text(face_coordinates, rgb_image, emotion_text, color, 0, -50, 1, 2)
+        draw_text(face_coordinates, rgb_image, gender_text, color, 0, -20, 0.7, 2)
+        draw_text(face_coordinates, rgb_image, emotion_text, color, 0, -50, 0.7, 2)
 
     bgr_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)
     print("finished emotion detection")

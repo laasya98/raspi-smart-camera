@@ -1,0 +1,117 @@
+/* :: 10.0 CTA CSS */
+
+.hami-cta-area {
+    position: relative;
+    z-index: 1;
+
+    .cta-text {
+        text-align: center;
+        border-bottom: 1px solid $border;
+        padding: 50px 0;
+
+        h2 {
+            font-size: 30px;
+            margin-bottom: 0;
+
+            @media #{$breakpoint-md} {
+                font-size: 24px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 20px;
+            }
+
+            span {
+                color: $primary;
+            }
+        }
+    }
+}
+
+.cta--content {
+    position: relative;
+    z-index: 1;
+
+    h2 {
+        font-size: 48px;
+        margin-bottom: 30px;
+
+        @media #{$breakpoint-lg} {
+            font-size: 36px;
+        }
+
+        @media #{$breakpoint-md} {
+            font-size: 24px;
+        }
+
+        @media #{$breakpoint-xs} {
+            font-size: 30px;
+        }
+    }
+
+    .cta-desc {
+
+        h6 {
+            font-size: 18px;
+            margin-bottom: 15px;
+
+            @media #{$breakpoint-md} {
+                font-size: 16px;
+            }
+
+            i {
+                color: $hover;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.hami-support-area {
+    position: relative;
+    z-index: 1;
+
+    .support-text {
+        padding: 60px 0;
+        text-align: center;
+
+        h2 {
+            font-size: 32px;
+            padding-top: 30px;
+            margin-bottom: 0;
+            color: $white;
+
+            @media #{$breakpoint-lg} {
+                font-size: 24px;
+            }
+
+            @media #{$breakpoint-md} {
+                font-size: 20px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .support-pattern {
+        position: absolute;
+        width: 100%;
+        height: calc(100% + 50px);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -2;
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        img {
+            width: 100%;
+        }
+    }
+}

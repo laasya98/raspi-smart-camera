@@ -1,0 +1,151 @@
+/* :: 22.0 Widget Area CSS */
+
+.single-widget-area {
+    position: relative;
+    z-index: 1;
+
+    .widget-form {
+        position: relative;
+        z-index: 1;
+
+        input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid $border;
+            border-radius: 0;
+            font-size: 14px;
+            padding: 0 20px;
+
+            &:focus {
+                border-color: $hover;
+                box-shadow: none;
+            }
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            background-color: $hover;
+            color: $white;
+            border: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+            cursor: pointer;
+        }
+    }
+}
+
+.catagories-list {
+    position: relative;
+    z-index: 1;
+
+    li {
+        a {
+            font-size: 18px;
+            display: block;
+            font-weight: 400;
+            margin-bottom: 20px;
+
+            @media #{$breakpoint-md} {
+                font-size: 16px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 16px;
+            }
+
+            i {
+                padding-right: 10px;
+            }
+
+            &:hover,
+            &:focus {
+                color: $hover;
+            }
+        }
+
+        &:last-child {
+            a {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.popular-tags {
+    position: relative;
+    z-index: 1;
+    margin-left: -3px;
+
+    li {
+        display: inline-block;
+        float: left;
+        margin: 3px;
+
+        a {
+            font-size: 13px;
+            display: inline-block;
+            padding: 0 20px;
+            height: 30px;
+            border: 1px solid $border;
+            font-weight: 400;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 30px;
+            color: $text;
+
+            &:hover,
+            &:focus {
+                color: $white;
+                background-color: $hover;
+            }
+        }
+    }
+}
+
+.single-recent-post {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 30px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .post-thumb {
+        @include flex(0 0 80px);
+        max-width: 80px;
+        width: 80px;
+        margin-right: 20px;
+    }
+
+    .post-content {
+        .post-title {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 5px;
+
+            @media #{$breakpoint-md} {
+                font-size: 14px;
+            }
+
+            @media #{$breakpoint-xs} {
+                font-size: 16px;
+            }
+
+            &:hover,
+            &:focus {
+                color: $hover;
+            }
+        }
+
+        .post-date {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #707070;
+        }
+    }
+}

@@ -1,0 +1,109 @@
+/* :: 13.0 Price Area CSS */
+
+.single-price-plan {
+    position: relative;
+    z-index: 1;
+    padding: 40px;
+    border-radius: 3px;
+    border: 1px solid $border;
+    box-shadow: 0 8px 8px -1px rgba(0, 0, 0, 0.15);
+    @include transition-duration(500ms);
+    overflow: hidden;
+
+    .popular-tag {
+        position: absolute;
+        z-index: 10;
+        width: 300px;
+        height: 25px;
+        background-color: #16c69a;
+        color: $white;
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 25px;
+        font-weight: 700;
+        text-align: center;
+        letter-spacing: 0.5px;
+        @include transform(rotate(42deg));
+        right: -106px;
+        top: 27px;
+
+        i {
+            font-size: 10px;
+        }
+    }
+
+    .price-plan-title {
+        margin-bottom: 20px;
+        text-align: center;
+
+        h4 {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        p {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+    }
+
+    .price-plan-value {
+        margin-bottom: 20px;
+        text-align: center;
+
+        h2 {
+            font-size: 60px;
+            color: $primary;
+            margin-bottom: 0;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+
+            span {
+                font-size: 18px;
+                position: absolute;
+                top: 5px;
+                left: -8px;
+                z-index: 1;
+                font-style: italic;
+            }
+        }
+
+        p {
+            margin-bottom: 0;
+            color: #b7b7b7;
+        }
+    }
+
+    .price-plan-desc {
+        margin-bottom: 20px;
+
+        p {
+            i {
+                color: $primary;
+            }
+        }
+    }
+
+    .view-all-btn {
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        font-weight: 400;
+        font-size: 16px;
+        text-decoration: underline;
+        color: #b7b7b7;
+
+        &:hover,
+        &:focus {
+            color: $hover;
+        }
+    }
+
+    &:hover,
+    &:focus,
+    &.active {
+        background-color: $bg-gray;
+    }
+}

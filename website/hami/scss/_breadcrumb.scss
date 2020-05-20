@@ -1,0 +1,28 @@
+/* :: 15.0 Breadcrumb CSS */
+
+.breadcrumb-content {
+    position: relative;
+    z-index: 1;
+    padding-top: 30px;
+
+    .breadcrumb {
+        padding: 0;
+        background-color: transparent;
+        margin-bottom: 0;
+
+        .breadcrumb-item {
+            a {
+
+                &:hover,
+                &:focus {
+                    color: $hover;
+                }
+            }
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: '\f105';
+            font-family: "FontAwesome";
+        }
+    }
+}

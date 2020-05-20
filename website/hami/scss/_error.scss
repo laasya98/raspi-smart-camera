@@ -1,0 +1,31 @@
+/* :: 19.0 Error Area CSS */
+
+.hami-error-area {
+    position: relative;
+    z-index: 1;
+
+    img {
+        margin-bottom: 50px;
+    }
+
+    h2 {
+        font-size: 48px;
+        margin-bottom: 15px;
+
+        @media #{$breakpoint-lg} {
+            font-size: 42px;
+        }
+
+        @media #{$breakpoint-md} {
+            font-size: 36px;
+        }
+
+        @media #{$breakpoint-xs} {
+            font-size: 30px;
+        }
+    }
+
+    p {
+        font-size: 18px;
+    }
+}

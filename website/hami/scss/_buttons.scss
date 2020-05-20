@@ -1,0 +1,60 @@
+/* :: 6.0 Buttons CSS */
+
+.btn {
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.hami-btn {
+    position: relative;
+    z-index: 1;
+    min-width: 150px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-block;
+    padding: 0 40px;
+    text-align: center;
+    text-transform: capitalize;
+    background-color: $primary;
+    color: $white;
+    border: none;
+    border-radius: 100px;
+    @include transition-duration(500ms);
+
+    &:focus,
+    &:hover {
+        font-weight: 600;
+        @include box-shadow($box-shadow);
+        background-color: $white;
+        color: $primary;
+    }
+
+    &.btn-2 {
+        background-color: $white;
+        color: $primary;
+
+        &:focus,
+        &:hover {
+            color: $white;
+            background-color: $hover;
+        }
+    }
+
+    &.live--chat--btn {
+        border: 1px solid $white;
+        line-height: 48px;
+        color: $white;
+    }
+}
+
+
+.continue-btn {
+    font-size: 16px;
+    color: $primary;
+    font-weight: 600;
+    padding: 0;
+    margin-top: 20px;
+}
