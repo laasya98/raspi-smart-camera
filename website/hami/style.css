@@ -1298,7 +1298,8 @@ input:focus {
       margin-bottom: 0;
       color: #b7b7b7; }
   .card .price-plan-desc {
-    margin-bottom: 20px; }
+    margin-bottom: 20px; 
+    text-align: justify; }
     .card .price-plan-desc p i {
       color: #1c66de; }
   .card .view-all-btn {

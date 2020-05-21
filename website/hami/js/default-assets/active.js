@@ -135,7 +135,7 @@
     // ****************************
     if ($.fn.scrollUp) {
         hami_window.scrollUp({
-            scrollSpeed: 1500,
+            scrollSpeed: 50,
             scrollText: '<i class="arrow_carrot-up"</i>'
         });
     }

@@ -16,6 +16,12 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
+    <style>
+        html {
+          scroll-behavior: smooth;
+        }
+        </style>
+
 </head>
 
 <body>
@@ -28,36 +34,7 @@
     <!-- Header Area Start -->
     <header class="header-area">
         <!-- Top Header Area Start -->
-        <div class="top-header-area">
-            <div class="container">
-                <div class="row">
 
-                    <div class="col-6">
-                        <div class="top-header-content">
-                            <a href="#"><i class="fa fa-phone" aria-hidden="true"></i> <span>Call Us: 001-1234-88888</span></a>
-                            <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> <span>Email: info.cololib@gmail.com</span></a>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="top-header-content">
-                            <!-- Login -->
-                            <a href="#"><i class="fa fa-lock" aria-hidden="true"></i> <span>Login / Register</span></a>
-                            <!-- Language -->
-                            <div class="dropdown">
-                                <a class="btn pr-0 dropdown-toggle" href="#" role="button" id="langdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="img/core-img/eng.png" alt=""> English</a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langdropdown">
-                                    <a class="dropdown-item" href="#">- Latvian</a>
-                                    <a class="dropdown-item" href="#">- Hindi</a>
-                                    <a class="dropdown-item" href="#">- Bangla</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
         <!-- Top Header Area End -->
 
         <!-- Main Header Start -->
@@ -69,7 +46,7 @@
 
                         <!-- Logo -->
                         <!-- <a class="nav-brand" href="index.html"><img src="./img/core-img/logo.png" alt=""></a> -->
-                        <a class="nav-brand" href="index.html"> <h1 style="color:white">ani</h1></a>
+                        <a class="nav-brand" href="index.html"> <h1 style="color:white">ECE 5725</h1></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -85,36 +62,15 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul id="nav">
-                                    <li class="active"><a href="./index.html">Home</a></li>
-                                    <li><a href="./hosting.html">Hosting</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./index.html">- Home</a></li>
-                                            <li><a href="./hosting.html">- Hosting</a></li>
-                                            <li><a href="./about.html">- About</a></li>
-                                            <li><a href="./blog.html">- Blog</a></li>
-                                            <li><a href="./single-blog.html">- Blog Details</a></li>
-                                            <li><a href="./404.html">- 404</a></li>
-                                            <li><a href="./coming-soon.html">- Coming Soon</a></li>
-                                            <li><a href="#">- Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                    <li><a href="#">- Dropdown Item</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="./about.html">About</a></li>
-                                    <li><a href="./blog.html">Blog</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="#Intro">Intro</a></li>
+                                    <li><a href="#System Overview">Overview</a></li>
+                                    <li><a href="#Implementation">Implementation</a></li>
+                                    <li><a href="#Future Work">Future Work</a></li>
+                                    <li><a href="#Conclusion">Conclusion</a></li>
                                 </ul>
 
                                 <!-- Live Chat -->
-                                <div class="live-chat-btn ml-5 mt-4 mt-lg-0 ml-md-4">
-                                    <a href="#" class="btn hami-btn live--chat--btn"><i class="fa fa-comments" aria-hidden="true"></i> Live Chat</a>
-                                </div>
+
                             </div>
                             <!-- Nav End -->
                         </div>
@@ -198,7 +154,7 @@
     <!-- Welcome Area End -->
 
     <!-- Find Domain Area Start -->
-    <section class="find-domain-area section-padding-100-0">
+    <section id="Intro" class="find-domain-area section-padding-100-0">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-md-4">
@@ -220,7 +176,7 @@
     <!-- Find Domain Area End -->
 
     <!-- Features Area Start -->
-    <section class="hami-features-area bg-gray section-padding-100">
+    <section id="System Overview" class="hami-features-area bg-gray section-padding-100">
         <div class="container">
             <div class="row">
                 <!-- Section Heading -->
@@ -323,7 +279,7 @@
     <!-- Features Area End -->
 
     <!-- Price Plan Area Start -->
-    <section class="hami-price-plan-area mt-50">
+    <section id="Implementation" class="hami-price-plan-area mt-50">
         <div class="container">
             <div class="row">
                 <!-- Section Heading -->
@@ -349,8 +305,8 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            sample text is this bigger
-                            <p> This is paragraph font</p>
+                            <h2>sample text is this bigger</h2>
+                            <p> We wanted to run larger, compute-heavy machine learning models on the images, but the hardware that comes in with the Pi has CPU, RAM, and memory limitations. It is also not realistic to scale the project on the Pi if we wanted to add more classification options and models. Thus, we turned to an AWS infrastructure to support this computation using cloud technologies.</p>
                         </div>
                     </div>
                 </div>
@@ -497,7 +453,7 @@
     <!-- Price Plan Area End -->
 
     <!-- Call To Action Area Start -->
-    <section class="hami-call-to-action bg-gray section-padding-100-0">
+    <section id="Future Work" class="hami-call-to-action bg-gray section-padding-100-0">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-12 col-md-6">
@@ -527,7 +483,7 @@
     <!-- Call To Action Area End -->
 
     <!-- Support Area Start -->
-    <section class="hami-support-area bg-gray">
+    <section id="Conclusion" class="hami-support-area bg-gray">
         <div class="container">
             <div class="row">
                 <div class="col-12">
