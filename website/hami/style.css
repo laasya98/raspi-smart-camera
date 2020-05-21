@@ -1235,6 +1235,84 @@ input:focus {
   .single-price-plan:hover, .single-price-plan:focus, .single-price-plan.active {
     background-color: #e8f1f8; }
 
+/* :: 13.5 My Card: Custom Price Area CSS Deactive */
+.card {
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+  border-radius: 3px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 8px 8px -1px rgba(0, 0, 0, 0.15);
+  -webkit-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+  overflow: hidden; }
+  .card .popular-tag {
+    position: absolute;
+    z-index: 10;
+    width: 300px;
+    height: 25px;
+    background-color: #16c69a;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+    -webkit-transform: rotate(42deg);
+    -ms-transform: rotate(42deg);
+    transform: rotate(42deg);
+    right: -106px;
+    top: 27px; }
+    .card .popular-tag i {
+      font-size: 10px; }
+  .card .price-plan-title {
+    margin-bottom: 20px;
+    text-align: center; }
+    .card .price-plan-title h4 {
+      font-weight: 600;
+      margin-bottom: 0; }
+    .card .price-plan-title p {
+      margin-bottom: 0;
+      font-size: 14px; }
+  .card .price-plan-value {
+    margin-bottom: 20px;
+    text-align: center; }
+    .card .price-plan-value h2 {
+      font-size: 60px;
+      color: #1c66de;
+      margin-bottom: 0;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      display: inline-block; }
+      .card .price-plan-value h2 span {
+        font-size: 18px;
+        position: absolute;
+        top: 5px;
+        left: -8px;
+        z-index: 1;
+        font-style: italic; }
+    .card .price-plan-value p {
+      margin-bottom: 0;
+      color: #b7b7b7; }
+  .card .price-plan-desc {
+    margin-bottom: 20px; }
+    .card .price-plan-desc p i {
+      color: #1c66de; }
+  .card .view-all-btn {
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    font-weight: 400;
+    font-size: 16px;
+    text-decoration: underline;
+    color: #b7b7b7; }
+    .card .view-all-btn:hover, .card .view-all-btn:focus {
+      color: #1c66de; }
+
+
 /* :: 14.0 Cloud Area CSS */
 .clouds img {
   position: absolute;
