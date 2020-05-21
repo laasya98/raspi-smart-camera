@@ -67,8 +67,8 @@
                                     <li><a href="#Intro">Intro</a></li>
                                     <li><a href="#System Overview">Overview</a></li>
                                     <li><a href="#Implementation">Implementation</a></li>
-                                    <li><a href="#Future Work">Future Work</a></li>
                                     <li><a href="#Conclusion">Conclusion</a></li>
+                                    <li><a href="#Appendix">Appendix</a></li>
                                 </ul>
 
                                 <!-- Live Chat -->
@@ -406,11 +406,95 @@
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
-                            <h2>Filters</h2>
+                            <h2>Cloud Connection</h2>
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            <p> This is paragraph font</p>
+                            <h3>AWS EC2/S3 Infrastructure</h3>
+                            <p>We wanted to run larger, compute-heavy machine learning models on the images, but the
+                                hardware that comes in with the Pi has CPU, RAM, and memory limitations. It is also not
+                                realistic to scale the project on the Pi if we wanted to add more classification options
+                                and models. Thus, we turned to an AWS infrastructure to support this computation using
+                                cloud technologies.
+
+                                Specifically, we used Amazon EC2 (Elastic Compute Cloud) and Amazon S3 (Simple Storage
+                                Service). EC2 provides virtual compute environments (instances )that you can customize
+                                and configure, where adding more resources to the instance will cost more. S3 provides
+                                cloud storage containers (called buckets) where you can store data (in our case,
+                                images).
+
+                                We used EC2 to load a t2.medium instance with Ubuntu 18.04. The name T2 refers to the
+                                type, while the size indicates the amount of RAM. T2 is one of the lowest tier types of
+                                instances with minimum CPU compute power.
+                                The general pipelines to access the server is explained above. Essentially, we use
+                                Nginx, a web server, Gunicorn, as WSGI (Web Server Gateway Interface) server and Flask,
+                                a web framework (for python). Nginx handles where requests from the internet arrive
+                                first. Gunicorn translates requests into a format the web application can handle. You
+                                can learn more about what they do here: https://vsupalov.com/gunicorn-and-nginx/, and
+                                here are instructions for building your own web server:
+                                https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0.
+                                Start by creating an EC2 instance, ssh in, and follow the instructions!
+
+                                Flask controls the server logic, such as what to do when certain endpoints are called.
+                                An endpoint is the URL that the server is waiting to receive and can act on, in our case
+                                we have 2 endpoints for each of the models: url/mask/<image_str> and url/emotion/
+                                    <image_str>. We have python functions that are executed when either of these
+                                        endpoints are hit (we pass the image through model inference). In addition,
+                                        Flask is a RESTful web framework, which means it only takes requests such as GET
+                                        and POST. Thus, you must make GET requests to our endpoints. In addition, the
+                                        server is setup with AWS credentials so it can make requests to S3 to upload and
+                                        download images using the boto3 api.
+                            </p>
+                            <h3>Failed Architectures</h3>
+                            <p>We had to make major design changes as we approached a cloud solution. We will make note
+                                of failed architectures here for future readers.
+
+                                First, we tried to use AWS IoT Greengrass. The name sounds useful right? However, it
+                                turns how this service is meant for controlling edge devices from a central server… not
+                                the other way around. AWS provides something called Greengrass Connectors, which help
+                                configure an edge device (the Pi) to do computing ON the device itself, and then send it
+                                to the server. This is meaningful when you have multiple edge devices, and want to
+                                control all of them through a Greengrass Group. However, the way even Greengrass sends
+                                information back and forth between an edge device and the central server is no different
+                                than the way we used boto3. Our goal is to not have to run on the Pi, so we looked at
+                                other solutions.
+
+                                Second, we tried to use AWS Lambda. Lambda is AWS’s notion of serverless architecture. A
+                                Lambda function will wait in the cloud until it is specifically called, execute its
+                                contents and exit. There is no server allocated for the function. This allows AWS to
+                                manage all resource allocation for all Lambda functions themselves. We figured we would
+                                set up Lambda functions that would run the model through an image when specifically
+                                called on. This is a valid architecture; however, there is one major limitation. When
+                                you deploy a Lambda, you create what is called a deployment package that contains all
+                                the files and dependencies for the Lambda. The maximum unzipped file size of a Lambda is
+                                250 MB (that is, stored on S3 or Lambda Layers, the maximum size to upload directly to
+                                Lambda is only 50 MB). The deployment package of MaskRCNN is 400 MB, which was too much,
+                                mostly because of SciPy being too large. As such, Lambda could not handle our needs, and
+                                we had to settle on a server-based architecture. If your deployment package is small
+                                enough for Lambda to handle, we highly recommend using it as it erases the need to
+                                configure an EC2 instance. A regular TensorFlow model can usually stay within the
+                                constraints.
+
+                                Finally, we decided to use an EC2 server with Nginx and Flask. Configuring the
+                                environment is tedious but doable, just make sure to use a virtual environment. You can
+                                find instructions here:
+                                https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0.
+
+                                One issue we came across was that the MaskRCNN model kept crashing on the instance due
+                                to a memory error. We originally started with a t2.micro instance, part of the free
+                                tier, which only has 1 GB of RAM! However, once we upgraded it to a paid instance, a
+                                t2.medium with 4 GB of RAM, the model ran fine.
+
+                                MaskRCNN takes about 100 seconds to run on a t2.medium, which has the bare minimum of
+                                resources. EC2 has many options for high compute power instances, such as those with
+                                GPU’s, but of course these will cost more. However, it keeps the application flexible to
+                                by allowing us to run as much computation as we need to simply by throwing money at it.
+                                Note that pricing is by the hour, so it is very feasible to downgrade your instance for
+                                development and upgrade it for fast performance when needed. This allows for a very
+                                scalable architecture depending on how your requirements change! For pricing reference,
+                                it costs 4 cents/hr to run the t2.medium, 16 cents/hr to run a t2.xlarge, and 53
+                                cents/hr to run a g4dn.xlarge. You can view pricing here:
+                                https://aws.amazon.com/ec2/pricing/on-demand/ </p>
                         </div>
                     </div>
                 </div>
@@ -497,55 +581,69 @@
     <!-- Price Plan Area End -->
 
     <!-- Call To Action Area Start -->
-    <section id="Future Work" class="hami-call-to-action bg-gray section-padding-100-0">
+    <!-- Features Area Start -->
+    <section id="Conclusion" class="hami-features-area bg-gray section-padding-100">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-md-6">
-                    <div class="cta-thumbnail mb-100">
-                        <img src="img/bg-img/2.png" alt="">
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="cta--content mb-100">
-                        <h2> Some sort of Future Work Section?</h2>
-                        <!-- Description -->
-                        <div class="cta-desc mb-50">
-                            <h6><i class="icon_check"></i> FREE Domain Name</h6>
-                            <h6><i class="icon_check"></i> FREE Email Address</h6>
-                            <h6><i class="icon_check"></i> Plenty of Disk Space</h6>
-                            <h6><i class="icon_check"></i> FREE Website Builder</h6>
-                            <h6><i class="icon_check"></i> FREE Marketing Tools</h6>
-                            <h6><i class="icon_check"></i> 1-Click WordPress Install</h6>
-                        </div>
-                        <!-- Button -->
-                        <a href="#" class="btn hami-btn">Get Start Now!</a>
+            <div class="row">
+                <!-- Section Heading -->
+                <div class="col-12">
+                    <div class="section-heading text-center">
+                        <h2>Conclusion</h2>
                     </div>
                 </div>
             </div>
+
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h2 class="mb-4">Results</h2>
+                        <p>PiCam is a system of hardware, local software, and remote software coming together in a state
+                            machine. An overall diagram depicting the inputs, flows, and data sources for each of the
+                            four major states is shown in the system diagram below:</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h2 class="mb-4">Future Work</h2>
+                        <p>PiCam is a system of hardware, local software, and remote software coming together in a state
+                            machine. An overall diagram depicting the inputs, flows, and data sources for each of the
+                            four major states is shown in the system diagram below:</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 mb-30">
+                    <div class="post-thumbnail mb-15">
+                        <img style="width:50%; height:50%" class="rounded mx-auto d-block" src="img/bg-img/18.jpg"
+                            alt="">
+                    </div>
+                    <h3 class="text-center">piccy caption</h3>
+                </div>
+            </div>
+
         </div>
     </section>
+    <!-- Features Area End -->
     <!-- Call To Action Area End -->
 
     <!-- Support Area Start -->
-    <section id="Conclusion" class="hami-support-area bg-gray">
+    <section id="Appendix" class="hami-support-area bg-gray">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="support-text">
-                        <h2>Conclusion</h2>
+                        <h2>Appendix</h2>
                     </div>
-                    </span>mlem
                 </div>
-                </span>mlem
             </div>
-            </span>mlem
         </div>
-        </span>mlem</div>
-        </span>mlem</div>
-        </span>mlem</div>
-        </div>
-        </div>
-        </div>
+
 
         <!-- Support Pattern -->
         <div class="support-pattern" style="background-image: url(img/core-img/support-pattern.png);"></div>
@@ -554,23 +652,44 @@
 
     <!-- Call To Action Area Start -->
     <section class="hami-cta-area">
-        <div class="container">
-            <div class="cta-text">
-                <h2>kitti counter: <span class="counter">420</span></h2>
-                <h2>laas hi counter: <span class="counter">69</span></h2>
-                <h2>frogey mlem counter: <span class="counter">1,000,000</span></h2>
-                <h2>beb counter: <span class="counter">999999999999999</span></h2>
-            </div>
-        </div>
+
         <div class="container">
             <div class="row justify-content-center">
 
-                <!-- Single Price Plan -->
+                <!-- Appendix Chunk -->
                 <div class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
-                            <h2>Conclusion Content</h2>
+                            <h2>Appendix A</h2>
+                        </div>
+                        <!-- Description -->
+                        <div class="price-plan-desc">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appendix Chunk -->
+                <div class="col-12">
+                    <div class="card mb-100">
+                        <!-- Title -->
+                        <div class="price-plan-title">
+                            <h2>Appendix B</h2>
+                        </div>
+                        <!-- Description -->
+                        <div class="price-plan-desc">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appendix Chunk -->
+                <div class="col-12">
+                    <div class="card mb-100">
+                        <!-- Title -->
+                        <div class="price-plan-title">
+                            <h2>Appendix C</h2>
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
