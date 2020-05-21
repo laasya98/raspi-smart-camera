@@ -1302,6 +1302,8 @@ input:focus {
     text-align: justify; }
     .card .price-plan-desc p i {
       color: #1c66de; }
+    .card .price-plan-desc p {
+      font-size: 18px; }
   .card .view-all-btn {
     padding: 0;
     text-align: center;

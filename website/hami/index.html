@@ -289,7 +289,20 @@
                         <!-- Description -->
                         <div class="price-plan-desc">
                             <h3>sample text is this bigger</h3>
-                            <p> While most of this project is implemented in software, the camera hardware setup is critical to PiCam’s success (naturally). In order to properly configure a camera with the Raspberry Pi, we followed [this] setup tutorial (https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2). The physical camera connection looks like this:</p>
+                            <p> While most of this project is implemented in software, the camera hardware setup is
+                                critical to PiCam’s success (naturally). In order to properly configure a camera with
+                                the Raspberry Pi, we followed [this] setup tutorial
+                                (https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2). The
+                                physical camera connection looks like this:</p>
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" style="width:50%; height:50%"
+                                    src="img/rpi-img/rpi_camera.png" alt="">
+                            </div>
+                            <p> Once we ensured that physical connection was secure, we opened up the raspi-config tool,
+                                and clicked on the interfaces tab. In order to connect to the camera, the ‘camera’ and
+                                ‘I2C’ options needed to be enabled. We made these changes, rebooted the Pi, and used the
+                                raspistill -o test.jpg test command to make sure the camera worked. After successfully
+                                creating the test.jpg file, we were ready to get started on the actual PiCam code!</p>
                         </div>
                     </div>
                 </div>
@@ -299,12 +312,27 @@
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
-                            <h2>Basic RPi Setup</h2>
+                            <h2>Control system</h2>
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            sample text is this bigger
-                            <p> This is paragraph font</p>
+                            <p>As described in the HLD section, PiCam operates through a state machine of four specific
+                                states, as controlled by the user’s button and touchscreen presses. For the menu handler
+                                state specifically, we divide our code into a variety of different functions, which have
+                                one of four categories: image processing functions that actually perform computations,
+                                “blit” functions that manage display, “handler” functions that monitor and respond to
+                                user input, and “miscellaneous” functions that handle other PiCam tasks, such as Given
+                                this, a typical flow of a user’s inputs would look something like this.</p>
+
+                            <p>Essentially, a user can take as many photos as they want, until the program is exited.
+                                For each photo they take, they can customize that photo with over a dozen different
+                                digital effects that can be compounded to create stimulating, artistic photos. Or, they
+                                could choose to use their image as an input to a Machine Learning service, and view
+                                those results any number of times. Once they are satisfied with the end result of their
+                                customizations, a user is easily able to open up a Save/Upload menu, where they can
+                                choose to discard an image, save it locally, or upload it to the Cloud. The next few
+                                sections will deep dive into how the different image effects were implemented, and how
+                                the cloud connection component of this project actually works!</p>
                         </div>
                     </div>
                 </div>
@@ -333,8 +361,42 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            sample text is this bigger
-                            <p> This is paragraph font</p>
+                            <p>Once the image effects menu is opened, a “level 1” menu is displayed, which divides up
+                                the different effects into four categories. Clicking on any of these category options
+                                will open up a “level 2” menu, which will allow a user to select the specific end
+                                effects they would like to apply to the image. Examples of the level 1 → level 2 menu
+                                transition are displayed below.</p>
+
+                            <p>Many of these effects were created using the highly-optimized image processing Python
+                                library, opencv. The next few sections will go in-depth into how each of the grouped
+                                image applications are actually implemented.</p>
+
+                            <h3><u>Filters</u></h3>
+                            <h4>Noir</h4>
+                            <p>The simplest of the filtering-type applications, this effect uses the cv2.cvtColor(im,
+                                cv2.BGR2GRAY) to convert an image to grayscale while preserving lumosity. As the image
+                                loses two channels (going from BGR to gray), we have to account for the transition from
+                                3D numpy arrays to 2D when displaying our image to the screen.</p>
+                            <h4>Sepia</h4>
+                            <p>Sepia is a sample image filter that gives an image an “aged photograph” look. It is
+                                computed by applying the following filter to an input image:
+
+                                The result of a sepia image is below:</p>
+                            <h4>Warm and Cool Images</h4>
+                            <p>“Warm” and “cool” are offered as two separate effect options</p>
+                            <h3><u>Adjustments</u></h3>
+                            <h4>Contrast</h4>
+                            <h4>Blur</h4>
+                            <h4>Brightness</h4>
+                            <h4>Saturation</h4>
+                            <h3><u>Special Effects</u></h3>
+                            <h4>Noir</h4>
+                            <h4>Sepia</h4>
+                            <h4>Warm and Cool Images</h4>
+                            <h3><u>Machine Learning</u></h3>
+                            <h4>Emotion Detection</h4>
+                            <h4>MaskRCNN</h4>
+
                         </div>
                     </div>
                 </div>
@@ -344,11 +406,10 @@
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
-                            <h2>Cloud Connection</h2>
+                            <h2>Filters</h2>
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            sample text is this bigger
                             <p> This is paragraph font</p>
                         </div>
                     </div>
