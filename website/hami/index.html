@@ -213,8 +213,6 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="blog-details-text">
-
-                        <h2 class="mb-4">Project Rationale</h2>
                         <p>CloudCam is a system of hardware, local software, and remote software coming together in a
                             state machine. An overall diagram depicting the inputs, flows, and data sources for each of
                             the four major states is shown in the system diagram below:</p>
@@ -341,7 +339,7 @@
                                 the different effects into four categories. </p>
 
                             <div class="mb-15">
-                                <img class="rounded mx-auto d-block" style="width:50%; height:50%"
+                                <img class="rounded mx-auto d-block" style="width:35%; height:35%"
                                     src="img/rpi-img/menu1.jpg" alt="menu1">
                             </div>
 
@@ -350,18 +348,18 @@
                                 apply to the image. Examples of the level 1 to level 2 menu transition are displayed
                                 below.</p>
 
-                            <div class="container">
+                            <div class="container" style="width:75%; height:75%">
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-6">
-                                        <img src="img/rpi-img/menu2.jpg" alt="menu2"></div>
+                                        <img class="rounded" src="img/rpi-img/menu2.jpg" alt="menu2"></div>
                                     <div class="col-6">
                                         <img src="img/rpi-img/menu3.jpg" alt="menu3"></div>
                                 </div>
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-6">
-                                        <img src="img/rpi-img/menu4.jpg" alt="menu4"></div>
+                                        <img class="rounded" src="img/rpi-img/menu4.jpg" alt="menu4"></div>
                                     <div class="col-6">
-                                        <img src="img/rpi-img/menu5.jpg" alt="menu5"></div>
+                                        <img class="rounded" src="img/rpi-img/menu5.jpg" alt="menu5"></div>
                                 </div>
                             </div>
 
@@ -370,12 +368,12 @@
                                 also applies to the Save/Upload menu transitions, which occur when transitioning back to
                                 the free view mode, and display the following screens:</p>
 
-                            <div class="row justify-content-center mb-15">
-                                <div>
-                                    <img class="rounded mx-auto d-block col-6" src="img/rpi-img/save1.jpg" alt="save1">
-                                </div>
-                                <div>
-                                    <img class="rounded mx-auto d-block col-6" src="img/rpi-img/save2.jpg" alt="save2">
+                            <div class="container" style="width:75%; height:75%">
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-6">
+                                        <img class="rounded" src="img/rpi-img/save1.jpg" alt="save1"></div>
+                                    <div class="col-6">
+                                        <img class="rounded" src="img/rpi-img/save2.jpg" alt="save2"></div>
                                 </div>
                             </div>
 
@@ -411,22 +409,29 @@
                                 the values in the different RGB channels of the image.</p>
 
                             <h4>Noir</h4>
-                            <div class="mb-15">
-                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/noir.jpg"
-                                    alt="noir">
-                            </div>
+
                             <p>The simplest of the filtering-type applications, this effect uses the cv2.cvtColor(im,
                                 cv2.BGR2GRAY) to convert an image to grayscale while preserving lumosity. As the image
                                 loses two channels (going from BGR to gray), we have to account for the transition from
                                 3D numpy arrays to 2D when displaying our image to the screen.</p>
-
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/noir.jpg"
+                                    alt="noir">
+                            </div>
                             <h4>Sepia</h4>
+
+                            <p>Sepia is a sample image filter that gives an image an “aged photograph” look. It is
+                                computed by applying the following filter to an input image.</p>
                             <div class="mb-15">
                                 <img class="rounded mx-auto d-block" src="img/rpi-img/sepia.png" alt="sepia">
                             </div>
-                            <p>Sepia is a sample image filter that gives an image an “aged photograph” look. It is
-                                computed by applying the following filter to an input image</p>
                             <h4>Warm and Cool Images</h4>
+                            <p>“Warm” and “cool” are offered as two separate effect options, but they simply involve
+                                adjusting the distributions of the red and blue RGB channels respectively. Warmer images
+                                appear “redder” while cooler images appear “bluer.” The channels were adjusted through a
+                                <code>spreadLookupTable()</code> function that adjusted the values according to a
+                                Univariate Spline
+                                transform. </p>
                             <div class="row justify-content-center mb-15">
                                 <div>
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/warm.jpg"
@@ -435,11 +440,7 @@
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/cold.jpg"
                                         alt="cold"></div>
                             </div>
-                            <p>“Warm” and “cool” are offered as two separate effect options, but they simply involve
-                                adjusting the distributions of the red and blue RGB channels respectively. Warmer images
-                                appear “redder” while cooler images appear “bluer.” The channels were adjusted through a
-                                spreadLookupTable() function that adjusted the values according to a Univariate Spline
-                                transform. </p>
+
                             <h3><u>Adjustments</u></h3>
                             <p>The adjustment group of image effects include four effects that can be dynamically
                                 incremented or decremented in an image. Common effects of this type include contrast and
@@ -448,7 +449,7 @@
                                 Choosing an effect in the adjustment menu will open up the current status of the edited
                                 image along with an adjustment bar at the bottom, as shown below. </p>
                             <div class="mb-15">
-                                <img class="rounded mx-auto d-block" style="width:50%; height:50%"
+                                <img class="rounded mx-auto d-block" style="width:35%; height:35%"
                                     src="img/rpi-img/incr.jpg" alt="incr">
                             </div>
                             <p>That bar serves as essentially a “level 2.5” menu option, as the system isn’t officially
@@ -467,15 +468,24 @@
                                 lighter because of the constant bias. Contrast is the difference in brightness between
                                 objects in the image. Increasing the contrast of an image makes light areas lighter and
                                 dark areas darker. High and Low contrast images are shown below:</p>
-
+                            <div class="row justify-content-center mb-15">
+                                <div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/bright.jpg"
+                                        alt="bright"></div>
+                                <div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/dark.jpg"
+                                        alt="dark"></div>
+                            </div>
                             <p>Contrast and brightness adjustment are respectively implemented by adjusting the alpha
-                                and beta parameters in the OpenCV function cv2.convertScaleAbs(alpha=a, beta=b), which
+                                and beta parameters in the OpenCV function
+                                <code>cv2.convertScaleAbs(alpha=a, beta=b)</code>, which
                                 performs the linear transform. For contrast adjustment on the user end, pressing the +
                                 button sets the contrast to 0.9, and the - button sets it to 1.1, and the images are
                                 multiplied by these constants. When the + button is selected for brightness adjustment,
                                 beta is set to +1, incrementing the overall image brightness by skewing it to the max
                                 brightness level. Similarly, if the - is pressed, beta is set to -1 to shift the image
                                 pixels down by one constant. High and Low brightness images are shown below: </p>
+
                             <div class="row justify-content-center mb-15">
                                 <div>
                                     <img class="rounded mx-auto d-block"
@@ -485,6 +495,30 @@
                                         src="img/rpi-img/image_effects/low_constrast.jpg" alt="low_constrast"></div>
                             </div>
                             <h4>Blur and Sharpness</h4>
+                            <p>The blur and sharpness adjustment effects are condensed into just one “blur” option,
+                                which involves the repeated application of either a blur or sharpness kernel, depending
+                                on a user’s input. The result of blurring is exactly what it sounds like; the image
+                                looks fuzzier with details obscured. The result of the sharpening kernel is an image
+                                with enhanced edges and vibrant colors - almost like a colored-pencil sketch. If the +
+                                button is pressed, the image is filtered with a blur filter, like the one below.</p>
+                            <div class="row justify-content-center mb-15">
+                                <div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/blur1.png" alt="blur1"></div>
+                            </div>
+                            <p>This is the equivalent of an averaging, or box filter. By contrast, if “-” is pressed, a
+                                sharpness kernel is applied, such as the one below:</p>
+                            <div class="row justify-content-center mb-15">
+                                <div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/blur2.png" alt="blur2"></div>
+                            </div>
+
+                            <p>The blur and sharpness adjustment effects are condensed into just one “blur” option,
+                                which involves the repeated application of either a blur or sharpness kernel, depending
+                                on a user’s input. The result of blurring is exactly what it sounds like; the image
+                                looks fuzzier with details obscured. The result of the sharpening kernel is an image
+                                with enhanced edges and vibrant colors - almost like a colored-pencil sketch. If the +
+                                button is pressed, the image is filtered with a blur filter, like the one below.
+                            </p>
                             <div class="row justify-content-center mb-15">
                                 <div>
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/blur.jpg"
@@ -493,19 +527,23 @@
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/sharp.jpg"
                                         alt="sharp"></div>
                             </div>
-                            <h4>Brightness</h4>
-                            <div class="row justify-content-center mb-15">
-                                <div>
-                                    <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/bright.jpg"
-                                        alt="bright"></div>
-                                <div>
-                                    <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/dark.jpg"
-                                        alt="dark"></div>
-                            </div>
-                            <p>The blur and sharpness adjustment effects are condensed into just one “blur” option, which involves the repeated application of either a blur or sharpness kernel, depending on a user’s input. The result of blurring is exactly what it sounds like; the image looks fuzzier with details obscured. The result of the sharpening kernel is an image with enhanced edges and vibrant colors - almost like a colored-pencil sketch. If the + button is pressed, the image is filtered with a blur filter, like the one below.
-                            </p>
-
                             <h4>Saturation</h4>
+
+                            <p>The final adjustment parameter is the saturation adjustment. As stated earlier, OpenCV
+                                stores images in BGR format, and we are used to seeing images in RGB format as well.
+                                Adjusting the saturation required converting the image to an HSV type - Hue, Saturation,
+                                Value. Hue represents the color portion of a pixel as a number from 0 to 360 degrees:
+                                Saturation describes the amount of gray in a particular color, from 0 to 100 percent.
+                                Reducing this component toward zero introduces more gray into the image and produces a
+                                faded effect. By contrast, saturated images seem vibrant, with fuller colors. Sometimes,
+                                saturation appears as a range from 0 to 1, where 0 is gray, and 1 is a primary color.
+                                Value works in conjunction with saturation and describes the brightness or intensity of
+                                the color, from 0 to 100 percent, where 0 is completely black, and 100 is the brightest
+                                and reveals the most color. To adjust saturation, we converted the image to HSV through
+                                the cv2.cvtColor(img, cv2.COLOR_BGR2HSV) and split the resulting channels into h, s, and
+                                v components. We then added a constant value of 5 to all values in the image’s s
+                                channel, if the + button was pressed, or subtracted 5 if the - button was pressed.
+                            </p>
                             <div class="row justify-content-center mb-15">
                                 <div>
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/high_sat.jpg"
@@ -514,41 +552,104 @@
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/low_sat.jpg"
                                         alt="low_sat"></div>
                             </div>
-                            <p>The final adjustment parameter is the saturation adjustment. As stated earlier, OpenCV stores images in BGR format, and we are used to seeing images in RGB format as well. Adjusting the saturation required converting the image to an HSV type - Hue, Saturation, Value. Hue represents the color portion of a pixel as a number from 0 to 360 degrees: Saturation describes the amount of gray in a particular color, from 0 to 100 percent. Reducing this component toward zero introduces more gray into the image and produces a faded effect. By contrast, saturated images seem vibrant, with fuller colors. Sometimes, saturation appears as a range from 0 to 1, where 0 is gray, and 1 is a primary color. Value works in conjunction with saturation and describes the brightness or intensity of the color, from 0 to 100 percent, where 0 is completely black, and 100 is the brightest and reveals the most color. To adjust saturation, we converted the image to HSV through the cv2.cvtColor(img, cv2.COLOR_BGR2HSV) and split the resulting channels into h, s, and v components. We then added a constant value of 5 to all values in the image’s s channel, if the + button was pressed, or subtracted 5 if the - button was pressed.
-                            </p>
+
                             <h3><u>Special Effects and Restoring</u></h3>
-                            <p>Special image effects that we included are ones that did not full under the filtering or adjusting umbrellas, but can be added to an image for other cool effects. In particular, we have support for 8-bit style images through pixelation, poster-like images through color clustering, and image outlines through Canny edge detection. 
+                            <p>Special image effects that we included are ones that did not full under the filtering or
+                                adjusting umbrellas, but can be added to an image for other cool effects. In particular,
+                                we have support for 8-bit style images through pixelation, poster-like images through
+                                color clustering, and image outlines through Canny edge detection.
 
-                                As mentioned previously, these image effects can be stacked up on top of each other and used in conjunction. If a user wants to “clear out” these image effects and restore to defaults, that option is provided in this menu as well by pressing the “restore” button.
-                                </p>
-                            <h4>Pixelation</h4>
-                            <div class="mb-15">
-                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/noir.jpg"
-                                    alt="noir">
-                            </div>
-                            <p>By “pixelating” an image, we can cool images in the style of an 8-bit video game. The pixelation process is a relatively simple matter of rescaling, using different interpolation methods. Interpolation is essentially the process of “guessing” what a neighboring pixel would be. To implement pixelation, we first downscale the image using cv2.resize(img, cv2.INTERP_LINEAR). The linear interpolator will use a combination of linear functions in order to determine neighboring pixels accurately. We then rescale the image back up using cv2.resize(img, cv2.INTERP_NEAREST). Nearest-neighbors interpolation does not adjust values of the pixels; it determines the neighboring pixels based on the exact values of pixels already present. This creates “blocks” in the rescaled image, mimicking pixels of an 8-bit game!</p>
-                            <h4>Color Clustering</h4>
-                            <p>Another special effect we added was color clustering through K means. Color clustering, or color quantization is the process of reducing the number of colors in an image. One reason to do so is to reduce the memory, but another reason, as in our case, is for the cool comic-book style poster effect. We use the OpenCV implementation of the K-means clustering algorithm for color quantization. K-means is an algorithm that attempts to classify an unknown set of data, in this case a bunch of RGB pixels, into a set number of groups or clusters. In an image, there are 3 features, R,G,B. To run this, we need to reshape the image to an array of Mx3 size, where M is the number of pixels in an image. After the clustering, we apply centroid values to all pixels, such that the resulting image will have the specified number of colors. 
+                                As mentioned previously, these image effects can be stacked up on top of each other and
+                                used in conjunction. If a user wants to “clear out” these image effects and restore to
+                                defaults, that option is provided in this menu as well by pressing the “restore” button.
                             </p>
-                            <h4>Canny Edge Images</h4>
-                            <p>The final special effect CloudCam has is the ability to generate edge images, resembling outlines. We accomplish this by using cv2.Canny(img), which performs the Canny edge detection algorithm. That algorithm utilizes a series of gradient calculations, as well as a hysteresis double-threshold, in order to compute “strong” edges of an image. Although these thresholds need to be fine-tuned on a per-image basis in order to have the optimal results, for a typical image the standard lower/upper thresholds of 100 and 200 produce meaningful results!</p>
-                            <h3><u>Machine Learning</u></h3>
-                            <p>The image effects described above are examples of classical, or non-learning-based Computer Vision applications. Most of these require relatively simple calculations, and run nearly instantly on the RPi. However, the newer applications of Computer Vision are typically done in conjunction with Machine Learning (ML) applications. Hundreds of different ML models exist that can generate or extract meaningful data from an input image, for a variety of different purposes. A camera that can generate inference results for trained ML models on the fly will certainly be a useful tool. To demonstrate our CloudCam’s ability to do so, we utilize two robust, pre-trained ML model frameworks, mini-Xception for Face and Emotion Recognition and MaskRCNN for common object detection and instance segmentation, as connections to the CloudCam.
+                            <h4>Pixelation</h4>
 
-                                To clarify, we don’t take credit for any of the ML models themselves - we borrowed pretrained versions of them. You can find the MaskRCNN model here on gluon:
-                                https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html 
-                                and the face and emotion classification network here on github: https://github.com/oarriaga/face_classification. 
-                                These resources provide more in-depth information on the implementation and usage of these model architectures.
-                                
+                            <p>By “pixelating” an image, we can cool images in the style of an 8-bit video game. The
+                                pixelation process is a relatively simple matter of rescaling, using different
+                                interpolation methods. Interpolation is essentially the process of “guessing” what a
+                                neighboring pixel would be. To implement pixelation, we first downscale the image using
+                                <code>cv2.resize(img, cv2.INTERP_LINEAR)</code>. The linear interpolator will use a
+                                combination of
+                                linear functions in order to determine neighboring pixels accurately. We then rescale
+                                the image back up using <code>cv2.resize(img, cv2.INTERP_NEAREST)</code>.
+                                Nearest-neighbors
+                                interpolation does not adjust values of the pixels; it determines the neighboring pixels
+                                based on the exact values of pixels already present. This creates “blocks” in the
+                                rescaled image, mimicking pixels of an 8-bit game!</p>
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/pixel.jpg"
+                                    alt="pixel">
+                            </div>
+                            <h4>Color Clustering</h4>
+                            <p>Another special effect we added was color clustering through K means. Color clustering,
+                                or color quantization is the process of reducing the number of colors in an image. One
+                                reason to do so is to reduce the memory, but another reason, as in our case, is for the
+                                cool comic-book style poster effect. We use the OpenCV implementation of the K-means
+                                clustering algorithm for color quantization. K-means is an algorithm that attempts to
+                                classify an unknown set of data, in this case a bunch of RGB pixels, into a set number
+                                of groups or clusters. In an image, there are 3 features, R,G,B. To run this, we need to
+                                reshape the image to an array of Mx3 size, where M is the number of pixels in an image.
+                                After the clustering, we apply centroid values to all pixels, such that the resulting
+                                image will have the specified number of colors.
+                            </p>
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/poster.jpg"
+                                    alt="poster">
+                            </div>
+
+                            <h4>Canny Edge Images</h4>
+                            <p>The final special effect CloudCam has is the ability to generate edge images, resembling
+                                outlines. We accomplish this by using cv2.Canny(img), which performs the Canny edge
+                                detection algorithm. That algorithm utilizes a series of gradient calculations, as well
+                                as a hysteresis double-threshold, in order to compute “strong” edges of an image.
+                                Although these thresholds need to be fine-tuned on a per-image basis in order to have
+                                the optimal results, for a typical image the standard lower/upper thresholds of 100 and
+                                200 produce meaningful results!</p>
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/canny.jpg"
+                                    alt="canny">
+                            </div>
+
+                            <h3><u>Machine Learning</u></h3>
+                            <p>The image effects described above are examples of classical, or non-learning-based
+                                Computer Vision applications. Most of these require relatively simple calculations, and
+                                run nearly instantly on the RPi. However, the newer applications of Computer Vision are
+                                typically done in conjunction with Machine Learning (ML) applications. Hundreds of
+                                different ML models exist that can generate or extract meaningful data from an input
+                                image, for a variety of different purposes. A camera that can generate inference results
+                                for trained ML models on the fly will certainly be a useful tool. To demonstrate our
+                                CloudCam’s ability to do so, we utilize two robust, pre-trained ML model frameworks,
+                                mini-Xception for Face and Emotion Recognition and MaskRCNN for common object detection
+                                and instance segmentation, as connections to the CloudCam.
+                            </p>
+                            <p>
+                                To clarify, we don’t take credit for any of the ML models themselves - we borrowed
+                                pretrained versions of them. You can find the MaskRCNN model here on
+                                <a
+                                    href="https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html">[<code>gluon</code>]</a>
+                                and the face and emotion classification network here on <a
+                                    href="https://github.com/oarriaga/face_classification">[github]</a>.
+                                These resources provide more in-depth information on the implementation and usage of
+                                these model architectures.
+                            </p>
+                            <p>
                                 Examples of Emotion Recognition and MaskRCNN predictions are shown below:
-                                </p>
+                            </p>
                             <h4>Emotion Detection</h4>
                             <div class="mb-15">
-                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/noir.jpg"
-                                    alt="noir">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/happy_woman.jpg"
+                                    alt="happy_woman">
                             </div>
                             <h4>MaskRCNN</h4>
-
+                            <div class="container" style="width:75%; height:75%">
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-6">
+                                        <img class="rounded" src="img/rpi-img/mask2.jpg" alt="mask2"></div>
+                                    <div class="col-6">
+                                        <img class="rounded" src="img/rpi-img/mask3.jpg" alt="mask3"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -660,7 +761,7 @@
                                 scalable architecture depending on how your requirements change! For pricing reference,
                                 it costs 4 cents/hr to run the t2.medium, 16 cents/hr to run a t2.xlarge, and 53
                                 cents/hr to run a g4dn.xlarge. You can view pricing <a
-                                    href="https://aws.amazon.com/ec2/pricing/on-demand/">[here]</a>
+                                    href="https://aws.amazon.com/ec2/pricing/on-demand/">[here]</a>.
                             </p>
                         </div>
                     </div>
@@ -689,7 +790,8 @@
                     <div class="blog-details-text">
 
                         <h2 class="mb-4">Results</h2>
-                        <p>Everything worked as expected, and the demo will be posted to the ECE 5725 Youtube Channel.</p>
+                        <p>Everything worked as expected, and the demo will be posted to the ECE 5725 Youtube Channel.
+                        </p>
 
                     </div>
                 </div>
@@ -836,7 +938,7 @@
                             AWS integration for both ML models
                             Website design and coding
                             Final Report
-                            
+
                         </div>
                     </div>
                 </div>
@@ -860,21 +962,21 @@
                             http://filters.sourceforge.net/filterslist.htm
                             https://stackoverflow.com/questions/55508615/how-to-pixelate-image-using-opencv-in-python
                             https://github.com/oarriaga/face_classification/blob/master/report.pdf
-                            
-                            
+
+
                             AWS:
-                            https://aws.amazon.com/ec2/pricing/on-demand/ 
+                            https://aws.amazon.com/ec2/pricing/on-demand/
                             https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html
                             https://aws.amazon.com/ec2/
                             https://docs.aws.amazon.com/lambda/latest/dg/welcome.html
                             https://aws.amazon.com/greengrass/
-                            
+
                             https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0
-                            
+
                             https://vsupalov.com/gunicorn-and-nginx/
-                            
+
                             https://aws.amazon.com/blogs/machine-learning/how-to-deploy-deep-learning-models-with-aws-lambda-and-tensorflow/
-                            
+
                         </div>
                     </div>
                 </div>
