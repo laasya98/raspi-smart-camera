@@ -159,11 +159,9 @@
         <div class="clouds">
             <img src="img/core-img/cloud-1.png" alt="" class="cloud-1">
             <img src="img/core-img/cloud-2.png" alt="" class="cloud-2">
-            <img src="img/core-img/cloud-2.png" alt="" class="cloud-2">
             <img src="img/core-img/cloud-3.png" alt="" class="cloud-3">
             <img src="img/core-img/cloud-4.png" alt="" class="cloud-4">
             <img src="img/core-img/cloud-5.png" alt="" class="cloud-5">
-            <img src="img/rpi-img/camera-tran.png" alt="" class="camera">
         </div>
     </section>
     <!-- Welcome Area End -->
@@ -175,7 +173,10 @@
                 <div class="col-12 col-md-4">
                     <div class="domain-text mb-100">
                         <h2>Introduction</h2>
-                        <h6>Pictures?</h6>
+                        <div class="mb-15">
+                            <img class="rounded mx-auto d-block" 
+                                src="img/rpi-img/picam.jpg" alt="picam">
+                        </div>                    
                     </div>
                 </div>
 
@@ -288,9 +289,13 @@
                                 the Raspberry Pi, we followed <a
                                     href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2">[this]</a>
                                 setup tutorial. The physical camera connection looks like this:</p>
-                            <div class="mb-15">
-                                <img class="rounded mx-auto d-block" style="width:50%; height:50%"
-                                    src="img/rpi-img/rpi_camera.png" alt="rpi_camera">
+                            <div class="container">
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-6">
+                                        <img src="img/rpi-img/rpi_camera.png" alt="rpi_camera"></div>
+                                    <div class="col-6">
+                                        <img class="rounded" src="img/rpi-img/frontcam.jpg" alt="frontcam"></div>
+                                </div>
                             </div>
                             <p>Once we ensured that physical connection was secure, we opened up the
                                 <code>raspi-config</code> tool, and clicked on the interfaces tab. In order to connect
