@@ -190,8 +190,8 @@
                             <h5>CloudCam is a cloud-connected camera capable of capturing and customizing images with a
                                 slew of digital effects computed on board a Raspberry Pi 3. Users can also run Machine
                                 Learning model predictions on captured photos through CloudCam’s Amazon Web Services
-                                Elastic Compute (AWS EC2) interface to detect human emotions or common objects. Finally,
-                                all captured shots can be optionally saved locally and/or uploaded to a remote AWS
+                                Elastic Compute Cloud (AWS EC2) interface to detect human emotions or common objects. Finally,
+                                all captured shots can be optionally saved locally and/or uploaded to a remote AWS Simple Storage Service (S3)
                                 server for later use!</h6>
                     </div>
                 </div>
@@ -613,6 +613,17 @@
                             <div class="mb-15">
                                 <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/canny.jpg"
                                     alt="canny">
+                            </div>
+                            <h3><u>Stacking image effects</u></h3>
+                            <p>A feature of the CloudCam is that these image effects can stack up on top of each other to 
+                                create new, unique image effects. These can be from any non-ML category. For example, a user 
+                                could apply a warm filter, adjust the saturation, adjust the contrast, run a color clustering, 
+                                and then pixelate an image - or any sort of combination like that, with no limit. The results of 
+                                that particular sequence is shown below: 
+                            </p>
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/image_effects/combo.jpg"
+                                    alt="comboo">
                             </div>
 
                             <h3><u>Machine Learning</u></h3>
