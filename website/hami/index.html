@@ -47,7 +47,7 @@
                         <!-- Logo -->
                         <!-- <a class="nav-brand" href="index.html"><img src="./img/core-img/logo.png" alt=""></a> -->
                         <a class="nav-brand" href="index.html">
-                            <h1 style="color:white">ECE 5725</h1>
+                            <h1 style="color:white">ECE 5725 Final Project</h1>
                         </a>
 
                         <!-- Navbar Toggler -->
@@ -107,7 +107,7 @@
                                         CloudCam
                                     </h2>
                                     <h3 data-animation="fadeInLeftBig" data-delay="400ms" data-duration="1s">
-                                        Cloud-Connected Special Effects Camera
+                                        Cloud-Connected Special Effects Camera for Raspberry Pi
                                     </h3>
                                     <p data-animation="fadeInLeftBig" data-delay="600ms" data-duration="1s">
                                         Anirudh Maddula(aam252), Laasya Renganathan (lpr46)
@@ -182,7 +182,7 @@
                 <div class="col-12 col-md-8">
                     <div class="domain-text mb-100">
                         <h5>Image processing tasks are used everywhere in modern technology, from graphics engines to
-                            iPhone apps and biomedical imaging applications. This project aims to bring a greater
+                            iPhone apps and biomedical imaging applications. This objective of this project is to bring a greater
                             understanding to all flavors of image processing tasks by surveying them through the RPi
                             CloudCam, our digital effects camera.</h6>
                             </br>
@@ -412,8 +412,8 @@
 
                             <h4>Noir</h4>
 
-                            <p>The simplest of the filtering-type applications, this effect uses the cv2.cvtColor(im,
-                                cv2.BGR2GRAY) to convert an image to grayscale while preserving lumosity. As the image
+                            <p>The simplest of the filtering-type applications, this effect uses the <code>cv2.cvtColor(im,
+                                cv2.BGR2GRAY)</code> to convert an image to grayscale while preserving lumosity. As the image
                                 loses two channels (going from BGR to gray), we have to account for the transition from
                                 3D numpy arrays to 2D when displaying our image to the screen.</p>
                             <div class="mb-15">
@@ -542,7 +542,7 @@
                                 Value works in conjunction with saturation and describes the brightness or intensity of
                                 the color, from 0 to 100 percent, where 0 is completely black, and 100 is the brightest
                                 and reveals the most color. To adjust saturation, we converted the image to HSV through
-                                the cv2.cvtColor(img, cv2.COLOR_BGR2HSV) and split the resulting channels into h, s, and
+                                the <code>cv2.cvtColor(img, cv2.COLOR_BGR2HSV)</code> and split the resulting channels into h, s, and
                                 v components. We then added a constant value of 5 to all values in the image’s s
                                 channel, if the + button was pressed, or subtracted 5 if the - button was pressed.
                             </p>
@@ -602,7 +602,7 @@
 
                             <h4>Canny Edge Images</h4>
                             <p>The final special effect CloudCam has is the ability to generate edge images, resembling
-                                outlines. We accomplish this by using cv2.Canny(img), which performs the Canny edge
+                                outlines. We accomplish this by using <code>cv2.Canny(img)</code>, which performs the Canny edge
                                 detection algorithm. That algorithm utilizes a series of gradient calculations, as well
                                 as a hysteresis double-threshold, in order to compute “strong” edges of an image.
                                 Although these thresholds need to be fine-tuned on a per-image basis in order to have
