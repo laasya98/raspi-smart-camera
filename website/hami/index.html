@@ -66,7 +66,14 @@
                                 <ul id="nav">
                                     <li><a href="#Intro">Intro</a></li>
                                     <li><a href="#System Overview">Overview</a></li>
-                                    <li><a href="#Implementation">Implementation</a></li>
+                                    <li><a href="#Implementation">Implementation</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#Setup">- RPi Setup</a></li>
+                                            <li><a href="#Control">- Control System</a></li>
+                                            <li><a href="#Effects">- Image Effects</a></li>
+                                            <li><a href="#Cloud">- Cloud Connection</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a href="#Conclusion">Conclusion</a></li>
                                     <li><a href="#Appendix">Appendix</a></li>
                                 </ul>
@@ -277,7 +284,7 @@
             <div class="row justify-content-center">
 
                 <!-- Setup -->
-                <div class="col-12">
+                <div id="Setup" class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
@@ -312,7 +319,7 @@
                 </div>
 
                 <!-- Control System -->
-                <div class="col-12">
+                <div id="Control" class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
@@ -394,7 +401,7 @@
                 </div>
 
                 <!-- Image Effects -->
-                <div class="col-12">
+                <div id="Effects" class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
@@ -410,7 +417,7 @@
                             <h3><u>Filters</u></h3>
                             <p>The filtering effects are grouped as such because the effects in this category mimic the
                                 iPhone or Instagram style filters. Much of the following work was adapted from <a
-                                    href="(https://towardsdatascience.com/python-opencv-building-instagram-like-image-filters-5c482c1c5079">[this]</a>.
+                                    href="https://towardsdatascience.com/python-opencv-building-instagram-like-image-filters-5c482c1c5079">[this]</a>.
                                 These typically involve an application of a 2D filter on an image, or involve changing
                                 the values in the different RGB channels of the image.</p>
 
@@ -653,7 +660,7 @@
                                 </div>
                             </div>
                             <h4>MaskRCNN Results</h4>
-                            <div class="container" >
+                            <div class="container">
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/mask2.jpg" alt="mask2"></div>
@@ -668,7 +675,7 @@
                 </div>
 
                 <!-- Cloud Connection -->
-                <div class="col-12">
+                <div id="Cloud" class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
                         <div class="price-plan-title">
@@ -713,8 +720,9 @@
                                     <image_str>. We have Python functions that are executed when either of these
                                         endpoints are hit (we pass the image through model inference). In addition,
                                         Flask is a RESTful web framework, which means it only takes requests such as GET
-                                        and POST. Thus, you must make GET requests to our endpoints. In addition, the
-                                        server is setup with AWS credentials so it can make requests to S3 to upload and
+                                        and POST. Thus, you must make GET requests to our endpoints. The
+                                        server is setup with AWS credentials (private and public key) so that it can
+                                        make requests to S3 to upload and
                                         download images using the boto3 api.
                             </p>
 
@@ -854,11 +862,12 @@
                     <div class="blog-details-text">
 
                         <h4>Supporting videos</h4>
-                        <p>The scope of this project only looked at still image frames, but it is entirely possible to 
-                            record and process videos using OpenCV libraries. It would be interesting to then create different 
-                            video effects, such as slow motion, timelapse, boomerang, or moving average, 
+                        <p>The scope of this project only looked at still image frames, but it is entirely possible to
+                            record and process videos using OpenCV libraries. It would be interesting to then create
+                            different
+                            video effects, such as slow motion, timelapse, boomerang, or moving average,
                             in addition to the traditional image processing effects which you can apply to each frame.
-                            </p>
+                        </p>
 
                     </div>
                 </div>
@@ -868,16 +877,20 @@
                     <div class="blog-details-text">
 
                         <h4>Trying different servers and models</h4>
-                        <p>We only implemented 2 different models on 1 t2.medium instance. 
-                            It would be interesting to try many other machine learning classifiers, 
-                            such as different object detection algorithms, and use more expensive instances, 
-                            to speed up the computation as much as possible on the most computation heavy types of models.
+                        <p>We only implemented 2 different models on 1 t2.medium instance.
+                            It would be interesting to try many other machine learning classifiers,
+                            such as different object detection algorithms, and use more expensive instances,
+                            to speed up the computation as much as possible on the most computation heavy types of
+                            models.
 
-                            Specifically, we could try to use YOLO: Real Time Object Detection, in conjunction with video, 
-                            and output live transformations on to the piTFT. We could have YOLO run on compute-heavy servers, 
-                            or try TinyYOLO (a lightweight version of YOLO) on the Pi. Although, YOLO does not return Masks of 
+                            Specifically, we could try to use YOLO: Real Time Object Detection, in conjunction with
+                            video,
+                            and output live transformations on to the piTFT. We could have YOLO run on compute-heavy
+                            servers,
+                            or try TinyYOLO (a lightweight version of YOLO) on the Pi. Although, YOLO does not return
+                            Masks of
                             objects, it only returns the bounding boxes around them.
-                            </p>
+                        </p>
 
                     </div>
                 </div>
