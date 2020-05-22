@@ -103,8 +103,8 @@
                             <!-- Welcome Text -->
                             <div class="col-12 col-md-9 col-lg-7">
                                 <div class="welcome-text mb-50">
-                                    <h2 data-animation="fadeInLeftBig" data-delay="200ms" data-duration="1s">SmartCam
-                                        <br> ~Wheesh~</h2>
+                                    <h2 data-animation="fadeInLeftBig" data-delay="200ms" data-duration="1s">CloudCam
+                                    </h2>
                                     <h3 data-animation="fadeInLeftBig" data-delay="400ms" data-duration="1s">
                                         Cloud-Connected Special Effects Camera</h3>
                                     <p data-animation="fadeInLeftBig" data-delay="600ms" data-duration="1s">Anirudh
@@ -279,7 +279,7 @@
 
             <div class="row justify-content-center">
 
-                <!-- Single Price Plan -->
+                <!-- Setup -->
                 <div class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
@@ -288,15 +288,15 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            <h3>sample text is this bigger</h3>
                             <p> While most of this project is implemented in software, the camera hardware setup is
                                 critical to PiCam’s success (naturally). In order to properly configure a camera with
-                                the Raspberry Pi, we followed [this] setup tutorial
-                                (https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2). The
+                                the Raspberry Pi, we followed <a
+                                    href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2">[this]</a>
+                                setup tutorial. The
                                 physical camera connection looks like this:</p>
                             <div class="mb-15">
                                 <img class="rounded mx-auto d-block" style="width:50%; height:50%"
-                                    src="img/rpi-img/rpi_camera.png" alt="">
+                                    src="img/rpi-img/rpi_camera.png" alt="rpi_camera">
                             </div>
                             <p> Once we ensured that physical connection was secure, we opened up the raspi-config tool,
                                 and clicked on the interfaces tab. In order to connect to the camera, the ‘camera’ and
@@ -307,7 +307,7 @@
                     </div>
                 </div>
 
-                <!-- Setup -->
+                <!-- Control System -->
                 <div class="col-12">
                     <div class="card mb-100">
                         <!-- Title -->
@@ -333,21 +333,6 @@
                                 choose to discard an image, save it locally, or upload it to the Cloud. The next few
                                 sections will deep dive into how the different image effects were implemented, and how
                                 the cloud connection component of this project actually works!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Control System -->
-                <div class="col-12">
-                    <div class="card mb-100">
-                        <!-- Title -->
-                        <div class="price-plan-title">
-                            <h2>Control System</h2>
-                        </div>
-                        <!-- Description -->
-                        <div class="price-plan-desc">
-                            sample text is this bigger
-                            <p> This is paragraph font</p>
                         </div>
                     </div>
                 </div>
@@ -414,27 +399,33 @@
                             <p>We wanted to run larger, compute-heavy machine learning models on the images, but the
                                 hardware that comes in with the Pi has CPU, RAM, and memory limitations. It is also not
                                 realistic to scale the project on the Pi if we wanted to add more classification options
-                                and models. Thus, we turned to an AWS infrastructure to support this computation using
-                                cloud technologies.
-
+                                and models. Thus, we turned to an AWS (Amazon Web Services) infrastructure to support
+                                this computation using their
+                                cloud technologies. </p>
+                            <p>
                                 Specifically, we used Amazon EC2 (Elastic Compute Cloud) and Amazon S3 (Simple Storage
                                 Service). EC2 provides virtual compute environments (instances )that you can customize
                                 and configure, where adding more resources to the instance will cost more. S3 provides
                                 cloud storage containers (called buckets) where you can store data (in our case,
-                                images).
-
+                                images).</p>
+                            <p>
                                 We used EC2 to load a t2.medium instance with Ubuntu 18.04. The name T2 refers to the
                                 type, while the size indicates the amount of RAM. T2 is one of the lowest tier types of
-                                instances with minimum CPU compute power.
+                                instances with minimum CPU compute power. </p>
+                            <p>
                                 The general pipelines to access the server is explained above. Essentially, we use
                                 Nginx, a web server, Gunicorn, as WSGI (Web Server Gateway Interface) server and Flask,
                                 a web framework (for python). Nginx handles where requests from the internet arrive
                                 first. Gunicorn translates requests into a format the web application can handle. You
-                                can learn more about what they do here: https://vsupalov.com/gunicorn-and-nginx/, and
-                                here are instructions for building your own web server:
-                                https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0.
-                                Start by creating an EC2 instance, ssh in, and follow the instructions!
+                                can learn more about what they do <a
+                                    href="https://vsupalov.com/gunicorn-and-nginx/">[here]</a>, and
+                                <a
+                                    href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0">[here]</a>
+                                are instructions for building your own web server.
 
+                            </p>
+                            <p>
+                                Start by creating an EC2 instance, ssh in, and follow the instructions!
                                 Flask controls the server logic, such as what to do when certain endpoints are called.
                                 An endpoint is the URL that the server is waiting to receive and can act on, in our case
                                 we have 2 endpoints for each of the models: url/mask/<image_str> and url/emotion/
@@ -448,7 +439,9 @@
                             <h3>Failed Architectures</h3>
                             <p>We had to make major design changes as we approached a cloud solution. We will make note
                                 of failed architectures here for future readers.
-
+                            </p>
+                            <h5>AWS Iot Greengrass</h5>
+                            <p>
                                 First, we tried to use AWS IoT Greengrass. The name sounds useful right? However, it
                                 turns how this service is meant for controlling edge devices from a central server… not
                                 the other way around. AWS provides something called Greengrass Connectors, which help
@@ -458,7 +451,9 @@
                                 information back and forth between an edge device and the central server is no different
                                 than the way we used boto3. Our goal is to not have to run on the Pi, so we looked at
                                 other solutions.
-
+                            </p>
+                            <h5>AWS Lambda </h5>
+                            <p>
                                 Second, we tried to use AWS Lambda. Lambda is AWS’s notion of serverless architecture. A
                                 Lambda function will wait in the cloud until it is specifically called, execute its
                                 contents and exit. There is no server allocated for the function. This allows AWS to
@@ -474,17 +469,21 @@
                                 enough for Lambda to handle, we highly recommend using it as it erases the need to
                                 configure an EC2 instance. A regular TensorFlow model can usually stay within the
                                 constraints.
-
+                            </p>
+                            <h5>EC2 Issues</h5>
+                            <p>
                                 Finally, we decided to use an EC2 server with Nginx and Flask. Configuring the
                                 environment is tedious but doable, just make sure to use a virtual environment. You can
-                                find instructions here:
-                                https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0.
-
+                                find instructions <a
+                                    href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0">[here]</a>.
+                            </p>
+                            <p>
                                 One issue we came across was that the MaskRCNN model kept crashing on the instance due
                                 to a memory error. We originally started with a t2.micro instance, part of the free
                                 tier, which only has 1 GB of RAM! However, once we upgraded it to a paid instance, a
                                 t2.medium with 4 GB of RAM, the model ran fine.
-
+                            </p>
+                            <p>
                                 MaskRCNN takes about 100 seconds to run on a t2.medium, which has the bare minimum of
                                 resources. EC2 has many options for high compute power instances, such as those with
                                 GPU’s, but of course these will cost more. However, it keeps the application flexible to
@@ -493,8 +492,9 @@
                                 development and upgrade it for fast performance when needed. This allows for a very
                                 scalable architecture depending on how your requirements change! For pricing reference,
                                 it costs 4 cents/hr to run the t2.medium, 16 cents/hr to run a t2.xlarge, and 53
-                                cents/hr to run a g4dn.xlarge. You can view pricing here:
-                                https://aws.amazon.com/ec2/pricing/on-demand/ </p>
+                                cents/hr to run a g4dn.xlarge. You can view pricing <a
+                                    href="https://aws.amazon.com/ec2/pricing/on-demand/">[here]</a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -695,34 +695,34 @@
                         <div class="price-plan-desc">
                             <table class="table">
                                 <thead>
-                                  <tr>
-                                    <th scope="col">Part</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Item Price</th>
-                                  </tr>
+                                    <tr>
+                                        <th scope="col">Part</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Item Price</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">beb</th>
-                                    <td>1</td>
-                                    <td>100 neopoints</td>
-                                    <td>8 neggs</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
+                                    <tr>
+                                        <th scope="row">beb</th>
+                                        <td>1</td>
+                                        <td>100 neopoints</td>
+                                        <td>8 neggs</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
                                 </tbody>
-                              </table>
+                            </table>
                         </div>
                     </div>
                 </div>
