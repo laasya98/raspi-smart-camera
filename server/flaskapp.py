@@ -17,6 +17,7 @@ BUCKET_NAME = 'raspi-smart-camera'
 
 jpg = ".jpg"
 
+# Run MaskRCNN with a pretrained model
 def run_mask_model(image_str):
     net = model_zoo.get_model('mask_rcnn_resnet50_v1b_coco', pretrained=True)
     print("downloaded the model")
@@ -38,6 +39,7 @@ def run_mask_model(image_str):
     print("Plotted the mask model output")
     # fig.set_size_inches(w,h)
 
+    # plot final image without axis
     ax.set_axis_off()
     # fig.add_axes(ax)
     # ax.imshow(orig_img, aspect='auto')
@@ -45,9 +47,11 @@ def run_mask_model(image_str):
     plt.savefig("images/" + image_str + "_mask" + jpg, bbox_inches='tight', pad_inches=0)
     print("End of MaskRCNN")
 
+# Run Emotion Detection with a pretrained model (located in a different directory)
 def run_emotion_model(image_str):
     demo_emotion(image_str)
 
+# Run both models
 def classify(image_str):
     print("Starting Classify")
     start = time.time()
@@ -57,27 +61,6 @@ def classify(image_str):
     run_emotion_model(image_str)
     end2 = time.time()
     print("Execution time for mask: " + str(end2-end1))
-
-def test_upload():
-    local_filename = "biker_test.jpg"
-    s3_file_name = "biker_test_server.jpg"
-    #note the s3 filename/path is set differently and has to be listed manually
-
-    data = open(local_filename, 'rb')
-
-    s3 = boto3.resource(
-        's3',
-        aws_access_key_id=ACCESS_KEY_ID,
-        aws_secret_access_key=ACCESS_SECRET_KEY,
-    )
-    try:
-        s3.Bucket(BUCKET_NAME).put_object(Key="test_folder/" + s3_file_name, Body=data)
-        logging.info("Successfully uploaded file {} to S3 bucket {}/{}.".format(local_filename, BUCKET_NAME, s3_file_name))
-
-    except Exception as e:
-        print("Error: could not upload file:" + local_filename + " to s3:" + str(e))
-
-    print ("Upload Done")
 
 def test_download(image_str):
     s3 = boto3.resource(
@@ -187,6 +170,9 @@ def upload_emotion(image_str):
 
     print ("Upload Emotion Done: " + image_str)
 
+#################
+### Endpoints ###
+#################
 
 @app.route("/")
 def hello():
@@ -196,7 +182,6 @@ def hello():
 def classify_image(input_str):
     # don't put .jpg in the name, i'll add it myself
     download(input_str) # downloads the original image from the upload folder in the bucket
-    # test_upload()
     classify(input_str) # run the image through both models and save them
     upload(input_str) # upload the completed images into the processed folder _emotion.jpg and _mask.jpg
     return "classified and uploaded image: " + str(input_str)

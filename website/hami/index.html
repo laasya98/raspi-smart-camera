@@ -122,7 +122,7 @@
                     <img src="img/bg-img/1.png" alt="">
                 </div>
             </div>
-            
+
             <!-- Single Welcome Slide -->
             <div class="single-welcome-slide">
                 <!-- Welcome Content -->
@@ -181,12 +181,12 @@
                     <div class="domain-text mb-100">
                         <h5>Image processing tasks are used everywhere in modern technology, from graphics engines to
                             iPhone apps and biomedical imaging applications. This project aims to bring a greater
-                            understanding to all flavors of image processing tasks by surveying them through PiCam, our
-                            digital effects camera.</h6>
+                            understanding to all flavors of image processing tasks by surveying them through the RPi
+                            CloudCam, our digital effects camera.</h6>
                             </br>
-                            <h5>PiCam is a cloud-connected camera capable of capturing and customizing images with a
+                            <h5>CloudCam is a cloud-connected camera capable of capturing and customizing images with a
                                 slew of digital effects computed on board a Raspberry Pi 3. Users can also run Machine
-                                Learning model predictions on captured photos through PiCam’s Amazon Web Services
+                                Learning model predictions on captured photos through CloudCam’s Amazon Web Services
                                 Elastic Compute (AWS EC2) interface to detect human emotions or common objects. Finally,
                                 all captured shots can be optionally saved locally and/or uploaded to a remote AWS
                                 server for later use!</h6>
@@ -215,46 +215,36 @@
                     <div class="blog-details-text">
 
                         <h2 class="mb-4">Project Rationale</h2>
-                        <p>PiCam is a system of hardware, local software, and remote software coming together in a state
-                            machine. An overall diagram depicting the inputs, flows, and data sources for each of the
-                            four major states is shown in the system diagram below:</p>
+                        <p>CloudCam is a system of hardware, local software, and remote software coming together in a
+                            state machine. An overall diagram depicting the inputs, flows, and data sources for each of
+                            the four major states is shown in the system diagram below:</p>
 
                     </div>
                 </div>
             </div>
-
-            <div class="row justify-content-center">
-                <div class="col-12 mb-30">
-                    <div class="post-thumbnail mb-15">
-                        <img src="img/bg-img/18.jpg" alt="">
-                    </div>
-                    <h3 class="text-center">piccy caption</h3>
+            <div class="container">
+                <div class="row justify-content-center mb-15">
+                    <div>
+                        <img src="img/rpi-img/state0.png" alt="state0"></div>
+                    <div>
+                        <img src="img/rpi-img/state1.png" alt="state1"></div>
+                </div>
+                <div class="row justify-content-center mb-15">
+                    <div>
+                        <img src="img/rpi-img/state2.png" alt="state2"></div>
+                    <div>
+                        <img src="img/rpi-img/state3.png" alt="state3"></div>
                 </div>
             </div>
-
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mb-30">
                 <div class="col-12">
                     <div class="blog-details-text">
-                        <p>Essentially, the physical button control on a PiTFT screen controls the transition between
-                            states. The touchscreen is used to control actions in the menu state, which will trigger the
-                            display of the digital effects. Some of the menu options We further break down the
-                            implementation details of each component of PiCam in the Implementation section.</p>
+                        <p>The first three GPIO-connected physical buttons on a PiTFT screen control the transition
+                            between states, and the fourth button quits the camera application. The touchscreen is used
+                            to control actions in the menu state, which will trigger the display of the digital effects.
+                            Some of the menu options We further break down the implementation details of each component
+                            of CloudCam in the Implementation section.</p>
 
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Single Feature Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-feature-area d-flex mb-50">
-                        <div class="feature-icon">
-                            <i class="icon_headphones"></i>
-                        </div>
-                        <div class="feature-text">
-                            <h5>Free Support</h5>
-                            <p>Don't be distracted by criticism. Remember the only taste of success some people.</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -292,21 +282,24 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            <p> While most of this project is implemented in software, the camera hardware setup is
-                                critical to PiCam’s success (naturally). In order to properly configure a camera with
+                            <p>While most of this project is implemented in software, the camera hardware setup is
+                                critical to CloudCam’s success (naturally). In order to properly configure a camera with
                                 the Raspberry Pi, we followed <a
                                     href="https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/2">[this]</a>
-                                setup tutorial. The
-                                physical camera connection looks like this:</p>
+                                setup tutorial. The physical camera connection looks like this:</p>
                             <div class="mb-15">
                                 <img class="rounded mx-auto d-block" style="width:50%; height:50%"
                                     src="img/rpi-img/rpi_camera.png" alt="rpi_camera">
                             </div>
-                            <p> Once we ensured that physical connection was secure, we opened up the raspi-config tool,
-                                and clicked on the interfaces tab. In order to connect to the camera, the ‘camera’ and
-                                ‘I2C’ options needed to be enabled. We made these changes, rebooted the Pi, and used the
-                                raspistill -o test.jpg test command to make sure the camera worked. After successfully
-                                creating the test.jpg file, we were ready to get started on the actual PiCam code!</p>
+                            <p>Once we ensured that physical connection was secure, we opened up the
+                                <code>raspi-config</code> tool, and clicked on the interfaces tab. In order to connect
+                                to the camera, the ‘camera’ and ‘I2C’ options needed to be enabled. We made these
+                                changes, rebooted the Pi, and used the <code>raspistill -o test.jpg</code> test command
+                                to make sure the camera worked. The images initially came out blurry, so we used a focus
+                                ring to adjust the camera lens. After successfully creating the test.jpg file, we were
+                                ready to get started on the actual CloudCam code!
+
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -320,13 +313,20 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            <p>As described in the HLD section, PiCam operates through a state machine of four specific
-                                states, as controlled by the user’s button and touchscreen presses. For the menu handler
-                                state specifically, we divide our code into a variety of different functions, which have
-                                one of four categories: image processing functions that actually perform computations,
-                                “blit” functions that manage display, “handler” functions that monitor and respond to
-                                user input, and “miscellaneous” functions that handle other PiCam tasks, such as Given
-                                this, a typical flow of a user’s inputs would look something like this.</p>
+                            <p>As described in the HLD section, CloudCam operates through a state machine of four
+                                specific states, as controlled by the user’s button and touchscreen presses. For the
+                                menu handler state specifically, we divide our code into a variety of different
+                                functions, which have one of four categories: image processing functions that actually
+                                perform computations, “blit” functions that manage display, “handler” functions that
+                                monitor and respond to user input, and “miscellaneous” functions that handle other
+                                CloudCam tasks, such as Given this, a typical flow of a user’s inputs would look
+                                something like this.
+                            </p>
+
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" src="img/rpi-img/statemachine.png"
+                                    alt="statemachine">
+                            </div>
 
                             <p>Essentially, a user can take as many photos as they want, until the program is exited.
                                 For each photo they take, they can customize that photo with over a dozen different
@@ -334,9 +334,37 @@
                                 could choose to use their image as an input to a Machine Learning service, and view
                                 those results any number of times. Once they are satisfied with the end result of their
                                 customizations, a user is easily able to open up a Save/Upload menu, where they can
-                                choose to discard an image, save it locally, or upload it to the Cloud. The next few
-                                sections will deep dive into how the different image effects were implemented, and how
-                                the cloud connection component of this project actually works!</p>
+                                choose to discard an image, save it locally, or upload it to the Cloud.
+                            </p>
+                            <p>
+                                Once the image effects menu is opened, a “level 1” menu is displayed, which divides up
+                                the different effects into four categories. </p>
+
+                            <div class="mb-15">
+                                <img class="rounded mx-auto d-block" style="width:50%; height:50%"
+                                    src="img/rpi-img/menu1.jpg" alt="menu1">
+                            </div>
+
+                            <p>Clicking on any of these category options will open one of the following four “level 2”
+                                menus, which will allow a user to select the specific end effects they would like to
+                                apply to the image. Examples of the level 1 to level 2 menu transition are displayed
+                                below.</p>
+
+                            <div class="container">
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-6">
+                                        <img src="img/rpi-img/menu2.jpg" alt="menu2"></div>
+                                    <div class="col-6">
+                                        <img src="img/rpi-img/menu3.jpg" alt="menu3"></div>
+                                </div>
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-6">
+                                        <img src="img/rpi-img/menu4.jpg" alt="menu4"></div>
+                                    <div class="col-6">
+                                        <img src="img/rpi-img/menu5.jpg" alt="menu5"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -562,82 +590,6 @@
                     </div>
                 </div>
 
-                <!-- Single Price Plan -->
-                <div class="col-12">
-                    <div class="card mb-100">
-                        <!-- Title -->
-                        <div class="price-plan-title">
-                            <h2>I made a new class called Card which doesn't do the hover thing</h2>
-                            <h4>Basic RPi Setup</h4>
-                            <h3>different font sizes</h3>
-                            <p>paragraph font</p>
-                        </div>
-                        <!-- Description -->
-                        <div class="price-plan-desc">
-                            sample text is this bigger
-                            <p> This is paragraph font</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Price Plan -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-price-plan active mb-100">
-                        <!-- Popular Tag -->
-                        <div class="popular-tag">
-                            <i class="icon_star"></i> Best Plan <i class="icon_star"></i>
-                        </div>
-                        <!-- Title -->
-                        <div class="price-plan-title">
-                            <h4>Advanced Hosting</h4>
-                            <p>On sale - Save 70%</p>
-                        </div>
-                        <!-- Value -->
-                        <div class="price-plan-value">
-                            <h2><span>$</span>3.99</h2>
-                            <p>/per month</p>
-                        </div>
-                        <!-- Button -->
-                        <a href="#" class="btn hami-btn w-100 mb-30">Get Started</a>
-                        <!-- Description -->
-                        <div class="price-plan-desc">
-                            <p><i class="icon_check"></i> Unlimited Number of Websites</p>
-                            <p><i class="icon_check"></i> Unlimited Email Accounts</p>
-                            <p><i class="icon_check"></i> Unlimited Bandwidth</p>
-                            <p><i class="icon_check"></i> 2X Processing Power &amp; Memory</p>
-                        </div>
-                        <!-- View All Feature Button -->
-                        <a href="#" class="btn view-all-btn">Click here to see all features</a>
-                    </div>
-                </div>
-
-                <!-- Single Price Plan -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-price-plan mb-100">
-                        <!-- Title -->
-                        <div class="price-plan-title">
-                            <h4>Unlimited Hosting</h4>
-                            <p>On sale - Save 50%</p>
-                        </div>
-                        <!-- Value -->
-                        <div class="price-plan-value">
-                            <h2><span>$</span>7.99</h2>
-                            <p>/per month</p>
-                        </div>
-                        <!-- Button -->
-                        <a href="#" class="btn hami-btn w-100 mb-30">Get Started</a>
-                        <!-- Description -->
-                        <div class="price-plan-desc">
-                            <p><i class="icon_check"></i> Unlimited Number of Websites</p>
-                            <p><i class="icon_check"></i> Unlimited Email Accounts</p>
-                            <p><i class="icon_check"></i> Unlimited Bandwidth</p>
-                            <p><i class="icon_check"></i> 2X Processing Power &amp; Memory</p>
-                        </div>
-                        <!-- View All Feature Button -->
-                        <a href="#" class="btn view-all-btn">Click here to see all features</a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -646,7 +598,7 @@
     <!-- Call To Action Area Start -->
     <!-- Features Area Start -->
     <section id="Conclusion" class="hami-features-area bg-gray section-padding-100">
-        <div class="container">
+        <div class="container justify-content-center">
             <div class="row">
                 <!-- Section Heading -->
                 <div class="col-12">
@@ -656,7 +608,7 @@
                 </div>
             </div>
 
-            <div class="row justify-content-center">
+            <div class="row ">
                 <div class="col-12">
                     <div class="blog-details-text">
 
@@ -668,25 +620,95 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row">
                 <div class="col-12">
                     <div class="blog-details-text">
 
-                        <h2 class="mb-4">Future Work</h2>
-                        <p>PiCam is a system of hardware, local software, and remote software coming together in a state
-                            machine. An overall diagram depicting the inputs, flows, and data sources for each of the
-                            four major states is shown in the system diagram below:</p>
+                        <h2 class="mb-4">Project Conclusions</h2>
+                        <p>We had a lot of fun and everything worked in the end!</p>
 
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row">
                 <div class="col-12 mb-30">
                     <div class="post-thumbnail mb-15">
                         <img style="width:50%; height:50%" class="rounded mx-auto d-block" src="img/bg-img/18.jpg"
                             alt="">
                     </div>
                     <h3 class="text-center">piccy caption</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h2 class="mb-4">Future Work</h2>
+                        <p>Here are things we could improve on.</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h4>Async</h4>
+                        <p>One of the issues with basic GET requests is that in python you are calling it like any other
+                            function, and need to wait for the function to execute before you can move on in the code.
+                            This became a problem with MaskRCNN, which takes about 100 seconds to execute and causes the
+                            Pi to hang while we are waiting for a response from the server. It would be very useful to
+                            implement asynchronous requests such that the model inference can start as soon as we take a
+                            picture, so we can browse other camera options while we wait for the model to finish
+                            running.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h4>Trying different servers and models</h4>
+                        <p>We only implemented 2 different models on 1 t2.medium instance. It would be interesting to
+                            try many other machine learning classifiers, such as object detection algorithms, and use
+                            more expensive instances, to speed up the computation as much as possible on the most
+                            computation heavy types of models.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h4>More Effects</h4>
+                        <p>Only around 12 different image effects are included so far, but there are a multitude of
+                            other options to explore! We could take to instagram and Snapchat as inspiration and attempt
+                            to create dynamic filter effects and image additions. Alternatively, we could explore more
+                            traditional filters such as histogram equalization, adaptive thresholding, or gradient
+                            images.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
+                        <h4>Follow best practices!</h4>
+                        <p>Just a note - make sure to follow AWS best practices or AWS will come after you. We
+                            accidently pushed our AWS credentials to github, which invoked AWS GuardDuty and put a
+                            ticket against our account as being compromised. We had to deal with several employees and
+                            rotate all our keys and passwords to re-secure the account.
+                            </br>
+                            There are also other standards to follow, such as making sure you don’t use your root
+                            account for everything, rather, you can make separate Users and assign them individual
+                            permissions, known as Roles. In this case, we made a separate User with an S3 role.
+                        </p>
+
+                    </div>
                 </div>
             </div>
 
@@ -786,6 +808,457 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appendix Chunk -->
+                <div class="col-12">
+                    <div class="card mb-100">
+                        <!-- Title -->
+                        <div class="price-plan-title">
+                            <h2>Appendix D: Server Code</h2>
+                        </div>
+                        <!-- Description -->
+                        <div class="price-plan-desc">
+                            <!-- HTML generated using hilite.me -->
+                            <div
+                                style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212</pre>
+                                        </td>
+                                        <td>
+                                            <pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">matplotlib</span> <span style="color: #008800; font-weight: bold">import</span> pyplot <span style="color: #008800; font-weight: bold">as</span> plt
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">gluoncv</span> <span style="color: #008800; font-weight: bold">import</span> model_zoo, data, utils
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">logging</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">boto3</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">keras.models</span> <span style="color: #008800; font-weight: bold">import</span> load_model
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">numpy</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">np</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">flask</span> <span style="color: #008800; font-weight: bold">import</span> Flask
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">cv2</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">time</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">face_classification.src.image_emotion_gender_demo_modified</span> <span style="color: #008800; font-weight: bold">import</span> demo_emotion
+
+app <span style="color: #333333">=</span> Flask(__name__)
+
+ACCESS_KEY_ID <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;&#39;</span>
+ACCESS_SECRET_KEY <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;&#39;</span>
+BUCKET_NAME <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;raspi-smart-camera&#39;</span>
+
+jpg <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;.jpg&quot;</span>
+
+<span style="color: #888888"># Run MaskRCNN with a pretrained model</span>
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">run_mask_model</span>(image_str):
+    net <span style="color: #333333">=</span> model_zoo<span style="color: #333333">.</span>get_model(<span style="background-color: #fff0f0">&#39;mask_rcnn_resnet50_v1b_coco&#39;</span>, pretrained<span style="color: #333333">=</span><span style="color: #007020">True</span>)
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;downloaded the model&quot;</span>)
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Starting Inference&quot;</span>)
+
+    im_fname <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> jpg
+    x, orig_img <span style="color: #333333">=</span> data<span style="color: #333333">.</span>transforms<span style="color: #333333">.</span>presets<span style="color: #333333">.</span>rcnn<span style="color: #333333">.</span>load_test(im_fname)
+    ids, scores, bboxes, masks <span style="color: #333333">=</span> [xx[<span style="color: #0000DD; font-weight: bold">0</span>]<span style="color: #333333">.</span>asnumpy() <span style="color: #008800; font-weight: bold">for</span> xx <span style="color: #000000; font-weight: bold">in</span> net(x)]
+    width, height <span style="color: #333333">=</span> orig_img<span style="color: #333333">.</span>shape[<span style="color: #0000DD; font-weight: bold">1</span>], orig_img<span style="color: #333333">.</span>shape[<span style="color: #0000DD; font-weight: bold">0</span>]
+    masks, _ <span style="color: #333333">=</span> utils<span style="color: #333333">.</span>viz<span style="color: #333333">.</span>expand_mask(masks, bboxes, (width, height), scores)
+    orig_img <span style="color: #333333">=</span> utils<span style="color: #333333">.</span>viz<span style="color: #333333">.</span>plot_mask(orig_img, masks)
+
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;finished mask classification, making plot&quot;</span>)
+
+    fig <span style="color: #333333">=</span> plt<span style="color: #333333">.</span>figure(figsize<span style="color: #333333">=</span>(<span style="color: #0000DD; font-weight: bold">10</span>, <span style="color: #0000DD; font-weight: bold">10</span>), frameon<span style="color: #333333">=</span><span style="color: #007020">False</span>)
+    ax <span style="color: #333333">=</span> fig<span style="color: #333333">.</span>add_subplot(<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">1</span>)
+    ax <span style="color: #333333">=</span> utils<span style="color: #333333">.</span>viz<span style="color: #333333">.</span>plot_bbox(orig_img, bboxes, scores, ids,
+                            class_names<span style="color: #333333">=</span>net<span style="color: #333333">.</span>classes, ax<span style="color: #333333">=</span>ax)
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Plotted the mask model output&quot;</span>)
+    <span style="color: #888888"># fig.set_size_inches(w,h)</span>
+
+    <span style="color: #888888"># plot final image without axis</span>
+    ax<span style="color: #333333">.</span>set_axis_off()
+    <span style="color: #888888"># fig.add_axes(ax)</span>
+    <span style="color: #888888"># ax.imshow(orig_img, aspect=&#39;auto&#39;)</span>
+
+    plt<span style="color: #333333">.</span>savefig(<span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_mask&quot;</span> <span style="color: #333333">+</span> jpg, bbox_inches<span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;tight&#39;</span>, pad_inches<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>)
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;End of MaskRCNN&quot;</span>)
+
+<span style="color: #888888"># Run Emotion Detection with a pretrained model (located in a different directory)</span>
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">run_emotion_model</span>(image_str):
+    demo_emotion(image_str)
+
+<span style="color: #888888"># Run both models</span>
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">classify</span>(image_str):
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Starting Classify&quot;</span>)
+    start <span style="color: #333333">=</span> time<span style="color: #333333">.</span>time()
+    run_mask_model(image_str)
+    end1 <span style="color: #333333">=</span> time<span style="color: #333333">.</span>time()
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Execution time for emotion: &quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(end1<span style="color: #333333">-</span>start))
+    run_emotion_model(image_str)
+    end2 <span style="color: #333333">=</span> time<span style="color: #333333">.</span>time()
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Execution time for mask: &quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(end2<span style="color: #333333">-</span>end1))
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">test_download</span>(image_str):
+    s3 <span style="color: #333333">=</span> boto3<span style="color: #333333">.</span>resource(
+        <span style="background-color: #fff0f0">&#39;s3&#39;</span>,
+        aws_access_key_id<span style="color: #333333">=</span>ACCESS_KEY_ID,
+        aws_secret_access_key<span style="color: #333333">=</span>ACCESS_SECRET_KEY,
+    )
+
+    s3_file_name <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;upload_folder/&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(image_str)
+    local_download_path <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #888888">#include the file name</span>
+
+    <span style="color: #888888"># Image download</span>
+    s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>download_file(s3_file_name, local_download_path); <span style="color: #888888"># Change the second part</span>
+    <span style="color: #888888"># This is where you want to download it too.</span>
+    <span style="color: #888888"># I believe the semicolon is there on purpose</span>
+    <span style="color: #008800; font-weight: bold">print</span> (<span style="background-color: #fff0f0">&quot;Download Done&quot;</span>)
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">download</span>(image_str):
+    s3 <span style="color: #333333">=</span> boto3<span style="color: #333333">.</span>resource(
+        <span style="background-color: #fff0f0">&#39;s3&#39;</span>,
+        aws_access_key_id<span style="color: #333333">=</span>ACCESS_KEY_ID,
+        aws_secret_access_key<span style="color: #333333">=</span>ACCESS_SECRET_KEY,
+    )
+
+    s3_file_name <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;upload_folder/&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(image_str) <span style="color: #333333">+</span> jpg
+    local_download_path <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> jpg <span style="color: #888888">#include the file name</span>
+
+    <span style="color: #008800; font-weight: bold">try</span>:
+    <span style="color: #888888"># Image download</span>
+        s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>download_file(s3_file_name, local_download_path); <span style="color: #888888"># Change the second part</span>
+        logging<span style="color: #333333">.</span>info(<span style="background-color: #fff0f0">&quot;Successfully uploaded file {} to S3 bucket {}/{}.&quot;</span><span style="color: #333333">.</span>format(local_download_path, BUCKET_NAME, s3_file_name))
+    <span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">Exception</span> <span style="color: #008800; font-weight: bold">as</span> e:
+        <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Error: could not upload file:&quot;</span> <span style="color: #333333">+</span> local_download_path <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; to s3:&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(e))
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">upload</span>(image_str):
+    local_filename1 <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_mask.jpg&quot;</span>
+    local_filename2 <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_emotion.jpg&quot;</span>
+
+    s3_filename1 <span style="color: #333333">=</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_mask.jpg&quot;</span>
+    s3_filename2 <span style="color: #333333">=</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_emotion.jpg&quot;</span>
+
+    <span style="color: #888888">#note the s3 filename/path is set differently and has to be listed manually</span>
+
+    data1 <span style="color: #333333">=</span> <span style="color: #007020">open</span>(local_filename1, <span style="background-color: #fff0f0">&#39;rb&#39;</span>)
+    data2 <span style="color: #333333">=</span> <span style="color: #007020">open</span>(local_filename2, <span style="background-color: #fff0f0">&#39;rb&#39;</span>)
+
+    s3 <span style="color: #333333">=</span> boto3<span style="color: #333333">.</span>resource(
+        <span style="background-color: #fff0f0">&#39;s3&#39;</span>,
+        aws_access_key_id<span style="color: #333333">=</span>ACCESS_KEY_ID,
+        aws_secret_access_key<span style="color: #333333">=</span>ACCESS_SECRET_KEY,
+    )
+    <span style="color: #008800; font-weight: bold">try</span>:
+        s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>put_object(Key<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;test_folder/&quot;</span> <span style="color: #333333">+</span> s3_filename1, Body<span style="color: #333333">=</span>data1)
+        logging<span style="color: #333333">.</span>info(<span style="background-color: #fff0f0">&quot;Successfully uploaded file {} to S3 bucket {}/{}.&quot;</span><span style="color: #333333">.</span>format(local_filename1, BUCKET_NAME, s3_filename1))
+    <span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">Exception</span> <span style="color: #008800; font-weight: bold">as</span> e:
+        <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Error: could not upload file:&quot;</span> <span style="color: #333333">+</span> local_filename1 <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; to s3:&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(e))
+
+    <span style="color: #008800; font-weight: bold">try</span>:
+        s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>put_object(Key<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;test_folder/&quot;</span> <span style="color: #333333">+</span> s3_filename2, Body<span style="color: #333333">=</span>data2)
+        logging<span style="color: #333333">.</span>info(<span style="background-color: #fff0f0">&quot;Successfully uploaded file {} to S3 bucket {}/{}.&quot;</span><span style="color: #333333">.</span>format(local_filename2, BUCKET_NAME, s3_filename2))
+    <span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">Exception</span> <span style="color: #008800; font-weight: bold">as</span> e:
+        <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Error: could not upload file:&quot;</span> <span style="color: #333333">+</span> local_filename2 <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; to s3:&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(e))
+
+    <span style="color: #008800; font-weight: bold">print</span> (<span style="background-color: #fff0f0">&quot;Upload Done&quot;</span>)
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">upload_mask</span>(image_str):
+    local_filename1 <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_mask.jpg&quot;</span>
+
+    s3_filename1 <span style="color: #333333">=</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_mask.jpg&quot;</span>
+
+    <span style="color: #888888">#note the s3 filename/path is set differently and has to be listed manually</span>
+
+    data1 <span style="color: #333333">=</span> <span style="color: #007020">open</span>(local_filename1, <span style="background-color: #fff0f0">&#39;rb&#39;</span>)
+
+    s3 <span style="color: #333333">=</span> boto3<span style="color: #333333">.</span>resource(
+        <span style="background-color: #fff0f0">&#39;s3&#39;</span>,
+        aws_access_key_id<span style="color: #333333">=</span>ACCESS_KEY_ID,
+        aws_secret_access_key<span style="color: #333333">=</span>ACCESS_SECRET_KEY,
+    )
+    <span style="color: #008800; font-weight: bold">try</span>:
+        s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>put_object(Key<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;test_folder/&quot;</span> <span style="color: #333333">+</span> s3_filename1, Body<span style="color: #333333">=</span>data1)
+        logging<span style="color: #333333">.</span>info(<span style="background-color: #fff0f0">&quot;Successfully uploaded file {} to S3 bucket {}/{}.&quot;</span><span style="color: #333333">.</span>format(local_filename1, BUCKET_NAME, s3_filename1))
+    <span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">Exception</span> <span style="color: #008800; font-weight: bold">as</span> e:
+        <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Error: could not upload file:&quot;</span> <span style="color: #333333">+</span> local_filename1 <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; to s3:&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(e))
+
+    <span style="color: #008800; font-weight: bold">print</span> (<span style="background-color: #fff0f0">&quot;Upload Mask Done: &quot;</span> <span style="color: #333333">+</span> image_str)
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">upload_emotion</span>(image_str):
+    local_filename2 <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;images/&quot;</span> <span style="color: #333333">+</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_emotion.jpg&quot;</span>
+
+    s3_filename2 <span style="color: #333333">=</span> image_str <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;_emotion.jpg&quot;</span>
+
+    <span style="color: #888888">#note the s3 filename/path is set differently and has to be listed manually</span>
+
+    data2 <span style="color: #333333">=</span> <span style="color: #007020">open</span>(local_filename2, <span style="background-color: #fff0f0">&#39;rb&#39;</span>)
+
+    s3 <span style="color: #333333">=</span> boto3<span style="color: #333333">.</span>resource(
+        <span style="background-color: #fff0f0">&#39;s3&#39;</span>,
+        aws_access_key_id<span style="color: #333333">=</span>ACCESS_KEY_ID,
+        aws_secret_access_key<span style="color: #333333">=</span>ACCESS_SECRET_KEY,
+    )
+    <span style="color: #008800; font-weight: bold">try</span>:
+        s3<span style="color: #333333">.</span>Bucket(BUCKET_NAME)<span style="color: #333333">.</span>put_object(Key<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;test_folder/&quot;</span> <span style="color: #333333">+</span> s3_filename2, Body<span style="color: #333333">=</span>data2)
+        logging<span style="color: #333333">.</span>info(<span style="background-color: #fff0f0">&quot;Successfully uploaded file {} to S3 bucket {}/{}.&quot;</span><span style="color: #333333">.</span>format(local_filename2, BUCKET_NAME, s3_filename2))
+    <span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">Exception</span> <span style="color: #008800; font-weight: bold">as</span> e:
+        <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Error: could not upload file:&quot;</span> <span style="color: #333333">+</span> local_filename2 <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; to s3:&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(e))
+
+    <span style="color: #008800; font-weight: bold">print</span> (<span style="background-color: #fff0f0">&quot;Upload Emotion Done: &quot;</span> <span style="color: #333333">+</span> image_str)
+
+<span style="color: #888888">#################</span>
+<span style="color: #888888">### Endpoints ###</span>
+<span style="color: #888888">#################</span>
+
+<span style="color: #555555; font-weight: bold">@app.route</span>(<span style="background-color: #fff0f0">&quot;/&quot;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">hello</span>():
+    <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&quot;&lt;h1 style=&#39;color:blue&#39;&gt;Welcome to raspi-smart-camera!&lt;/h1&gt;&lt;h2&gt;Endpoints:&lt;/h2&gt;&lt;h3&gt;classify, emotion, mask&lt;/h3&gt;&quot;</span>
+
+<span style="color: #555555; font-weight: bold">@app.route</span>(<span style="background-color: #fff0f0">&#39;/classify/&lt;input_str&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">classify_image</span>(input_str):
+    <span style="color: #888888"># don&#39;t put .jpg in the name, i&#39;ll add it myself</span>
+    download(input_str) <span style="color: #888888"># downloads the original image from the upload folder in the bucket</span>
+    classify(input_str) <span style="color: #888888"># run the image through both models and save them</span>
+    upload(input_str) <span style="color: #888888"># upload the completed images into the processed folder _emotion.jpg and _mask.jpg</span>
+    <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&quot;classified and uploaded image: &quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(input_str)
+
+<span style="color: #555555; font-weight: bold">@app.route</span>(<span style="background-color: #fff0f0">&#39;/download/&lt;input_str&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">download_image</span>(input_str):
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;downloading image: &quot;</span> <span style="color: #333333">+</span> input_str)
+    test_download(input_str)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&quot;tried to download image: &quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(input_str)
+
+<span style="color: #555555; font-weight: bold">@app.route</span>(<span style="background-color: #fff0f0">&#39;/emotion/&lt;input_str&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">emotion</span>(input_str):
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;GET Request for /emotion on image: &quot;</span> <span style="color: #333333">+</span> input_str)
+    download(input_str)
+    run_emotion_model(input_str)
+    upload_emotion(input_str)
+    <span style="color: #008800; font-weight: bold">return</span> (<span style="background-color: #fff0f0">&quot;Finished Executing Emotion&quot;</span>)
+
+<span style="color: #555555; font-weight: bold">@app.route</span>(<span style="background-color: #fff0f0">&#39;/mask/&lt;input_str&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">mask</span>(input_str):
+    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;GET Request for /mask on image: &quot;</span> <span style="color: #333333">+</span> input_str)
+    download(input_str)
+    run_mask_model(input_str)
+    upload_mask(input_str)
+    <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&quot;Finished Executing Mask&quot;</span>
+
+<span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&#39;__main__&#39;</span>:
+    app<span style="color: #333333">.</span>run(host<span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;0.0.0.0&#39;</span>)
+</pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>
