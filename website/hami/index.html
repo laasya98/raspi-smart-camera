@@ -148,7 +148,7 @@
                 </div>
                 <!-- Welcome Thumbnail -->
                 <div class="welcome-thumbnail">
-                    <img src="img/bg-img/1.png" alt="">
+                    <img src="img/bg-img/2.png" alt="">
                 </div>
             </div>
 
@@ -174,16 +174,16 @@
                     <div class="domain-text mb-100">
                         <h2>Introduction</h2>
                         <div class="mb-15">
-                            <img class="rounded mx-auto d-block" 
-                                src="img/rpi-img/picam.jpg" alt="picam">
-                        </div>                    
+                            <img class="rounded mx-auto d-block" src="img/rpi-img/picam.jpg" alt="picam">
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-8">
                     <div class="domain-text mb-100">
                         <h5>Image processing tasks are used everywhere in modern technology, from graphics engines to
-                            iPhone apps and biomedical imaging applications. This objective of this project is to bring a greater
+                            iPhone apps and biomedical imaging applications. This objective of this project is to bring
+                            a greater
                             understanding to all flavors of image processing tasks by surveying them through the RPi
                             CloudCam, our digital effects camera.</h6>
                             </br>
@@ -360,13 +360,14 @@
                                     <div class="col-6">
                                         <img class="rounded" src="img/rpi-img/menu2.jpg" alt="menu2"></div>
                                     <div class="col-6">
-                                        <img src="img/rpi-img/menu3.jpg" alt="menu3"></div>
+                                        <img class="rounded" src="img/rpi-img/menu3.jpg" alt="menu3"></div>
                                 </div>
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-6">
                                         <img class="rounded" src="img/rpi-img/menu4.jpg" alt="menu4"></div>
                                     <div class="col-6">
-                                        <img class="rounded" src="img/rpi-img/menu5.jpg" alt="menu5"></div>
+                                        <img class="rounded" src="img/rpi-img/menu5.jpg" alt="menu5"
+                                            style="width:100%; height:97%"></div>
                                 </div>
                             </div>
 
@@ -418,7 +419,8 @@
                             <h4>Noir</h4>
 
                             <p>The simplest of the filtering-type applications, this effect uses the <code>cv2.cvtColor(im,
-                                cv2.BGR2GRAY)</code> to convert an image to grayscale while preserving lumosity. As the image
+                                cv2.BGR2GRAY)</code> to convert an image to grayscale while preserving lumosity. As the
+                                image
                                 loses two channels (going from BGR to gray), we have to account for the transition from
                                 3D numpy arrays to 2D when displaying our image to the screen.</p>
                             <div class="mb-15">
@@ -547,7 +549,8 @@
                                 Value works in conjunction with saturation and describes the brightness or intensity of
                                 the color, from 0 to 100 percent, where 0 is completely black, and 100 is the brightest
                                 and reveals the most color. To adjust saturation, we converted the image to HSV through
-                                the <code>cv2.cvtColor(img, cv2.COLOR_BGR2HSV)</code> and split the resulting channels into h, s, and
+                                the <code>cv2.cvtColor(img, cv2.COLOR_BGR2HSV)</code> and split the resulting channels
+                                into h, s, and
                                 v components. We then added a constant value of 5 to all values in the image’s s
                                 channel, if the + button was pressed, or subtracted 5 if the - button was pressed.
                             </p>
@@ -607,7 +610,8 @@
 
                             <h4>Canny Edge Images</h4>
                             <p>The final special effect CloudCam has is the ability to generate edge images, resembling
-                                outlines. We accomplish this by using <code>cv2.Canny(img)</code>, which performs the Canny edge
+                                outlines. We accomplish this by using <code>cv2.Canny(img)</code>, which performs the
+                                Canny edge
                                 detection algorithm. That algorithm utilizes a series of gradient calculations, as well
                                 as a hysteresis double-threshold, in order to compute “strong” edges of an image.
                                 Although these thresholds need to be fine-tuned on a per-image basis in order to have
@@ -644,17 +648,25 @@
                                 Examples of Emotion Recognition and MaskRCNN predictions are shown below:
                             </p>
                             <h4>Emotion Detection</h4>
-                            <div class="mb-15">
-                                <img class="rounded mx-auto d-block" src="img/rpi-img/happy_woman.jpg"
-                                    alt="happy_woman">
+                            <div class="container">
+                                <div class="row justify-content-center mb-15">
+                                    <div class="col-4">
+                                        <img class="rounded" src="img/rpi-img/happy_woman.jpg" alt="happy_woman"></div>
+                                    <div class="col-4">
+                                        <img class="rounded" src="img/rpi-img/sad_man.jpg" alt="sad_man"></div>
+                                    <div class="col-4">
+                                        <img class="rounded" src="img/rpi-img/neutral_woman.jpg" alt="neutral_woman"></div>
+                                </div>
                             </div>
                             <h4>MaskRCNN</h4>
-                            <div class="container" style="width:75%; height:75%">
+                            <div class="container" >
                                 <div class="row justify-content-center mb-15">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/mask2.jpg" alt="mask2"></div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/mask3.jpg" alt="mask3"></div>
+                                    <div class="col-4">
+                                        <img class="rounded" src="img/rpi-img/objects.jpg" alt="objects"></div>
                                 </div>
                             </div>
                         </div>
@@ -729,7 +741,7 @@
                                 than the way we used boto3. Our goal is to not have to run on the Pi, so we looked at
                                 other solutions.
                             </p>
-                            
+
                             <h5>AWS Lambda </h5>
                             <p>
                                 Second, we tried to use AWS Lambda. Lambda is AWS’s notion of serverless architecture. A
@@ -799,11 +811,16 @@
                 <div class="col-12">
                     <div class="blog-details-text">
                         <h2 class="mb-4">Results</h2>
-                        <p>Everything worked as expected! </p><p>
-                            We were successfully able to demonstrate interfacing with the camera, Raspberry Pi, and the AWS server in a functional state machine.
-                            We could view the effects of a variety of image filters, and successfully used the camera input as testing data for two pretrained models hosted on the AWS servers.
-                            All pictures that were captured could be saved locally, as well as exported to the S3 bucket successfully.  
-                            The demo of all of these features in action will be posted to the ECE 5725 Youtube Channel soon.</p>
+                        <p>Everything worked as expected! </p>
+                        <p>
+                            We were successfully able to demonstrate interfacing with the camera, Raspberry Pi, and the
+                            AWS server in a functional state machine.
+                            We could view the effects of a variety of image filters, and successfully used the camera
+                            input as testing data for two pretrained models hosted on the AWS servers.
+                            All pictures that were captured could be saved locally, as well as exported to the S3 bucket
+                            successfully.
+                            The demo of all of these features in action will be posted to the ECE 5725 Youtube Channel
+                            soon.</p>
 
                     </div>
                 </div>
@@ -813,7 +830,8 @@
                     <div class="blog-details-text">
 
                         <h2 class="mb-4">Project Conclusions and Future Work</h2>
-                        <p>We had a lot of fun building this project, and were very happy that everything worked out in the end! 
+                        <p>We had a lot of fun building this project, and were very happy that everything worked out in
+                            the end!
                             However, like all great projects, there's plenty of room for improvement and extensions.
                             Here are things we could improve on:</p>
 
@@ -923,30 +941,30 @@
                         <div class="price-plan-desc">
                             <div class="row justify-content-center mb-15">
                                 <div>
-                                    <img class="rounded mx-auto d-block" src="img/rpi-img/happy_laas.jpg"
-                                        alt="laas"> 
-                                        <u>Laasya</u> <ul>
-                                            <li>Camera Fine Tuning</li>
-                                            <li>CloudCam state machine logic</li>
-                                            <li>Image effects code </li>
-                                            <li>RPi Graphic display</li>
-                                            <li>Final Report</li>
-                                        </ul>
-                                    </div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/happy_laas.jpg" alt="laas">
+                                    <u>Laasya</u>
+                                    <ul>
+                                        <li>Camera Fine Tuning</li>
+                                        <li>CloudCam state machine logic</li>
+                                        <li>Image effects code </li>
+                                        <li>RPi Graphic display</li>
+                                        <li>Final Report</li>
+                                    </ul>
+                                </div>
                                 <div>
-                                    <img class="rounded mx-auto d-block" src="img/rpi-img/happy_ani.jpg"
-                                        alt="anirudh">
-                                        <u>Anirudh</u> <ul>
-                                            <li>ML Server Setup</li>
-                                            <li>S3 integration for cloud storage</li>
-                                            <li>AWS integration for both ML models</li>
-                                            <li>Website design and coding</li>
-                                            <li>Final Report</li>
-                                        </ul>
-                                    </div>
+                                    <img class="rounded mx-auto d-block" src="img/rpi-img/happy_man.jpg" alt="ani">
+                                    <u>Anirudh</u>
+                                    <ul>
+                                        <li>ML Server Setup</li>
+                                        <li>S3 integration for cloud storage</li>
+                                        <li>AWS integration for both ML models</li>
+                                        <li>Website design and coding</li>
+                                        <li>Final Report</li>
+                                    </ul>
+                                </div>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -962,28 +980,48 @@
                         <div class="row justify-content-center mb-15" style="margin:5px">
                             <div class="col-6">
                                 <h4>Image Processing resources:</h4>
-                                    <a href="https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html" >Basic Linear Transforms</a><br>
-                                    <a href="https://docs.opencv.org/master/d1/d5c/tutorial_py_kmeans_opencv.htm">KMeans in Image Processing</a><br>
-                                    <a href="https://docs.opencv.org/3.4.8/d4/d13/tutorial_py_filtering.htmll">Image Filtering in OpenCV</a><br>
-                                    <a href="https://towardsdatascience.com/python-opencv-building-instagram-like-image-filters-5c482c1c5079">Building Instagram-Like Image Filters</a><br>
-                                    <a href="https://stackoverflow.com/questions/55508615/how-to-pixelate-image-using-opencv-in-python">Pixelating Images</a><br>
-                                    <a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html">Canny Edge Detection</a><br>
-                                    <a href="https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Feng-ming_Chang/dreamweaver/main">Student project from ECE 5725 2015fa</a><br>
-                                    <a href="http://filters.sourceforge.net/filterslist.htm">List of common image filters</a><br>
-                                    <a href="https://github.com/oarriaga/face_classification/blob/master/report.pdf">Face classification</a><br>
-                                    <a href="https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html">Mask RCNN Resource</a><br>
-                                </div>
+                                <a href="https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html">Basic
+                                    Linear Transforms</a><br>
+                                <a href="https://docs.opencv.org/master/d1/d5c/tutorial_py_kmeans_opencv.htm">KMeans in
+                                    Image Processing</a><br>
+                                <a href="https://docs.opencv.org/3.4.8/d4/d13/tutorial_py_filtering.htmll">Image
+                                    Filtering in OpenCV</a><br>
+                                <a
+                                    href="https://towardsdatascience.com/python-opencv-building-instagram-like-image-filters-5c482c1c5079">Building
+                                    Instagram-Like Image Filters</a><br>
+                                <a
+                                    href="https://stackoverflow.com/questions/55508615/how-to-pixelate-image-using-opencv-in-python">Pixelating
+                                    Images</a><br>
+                                <a
+                                    href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html">Canny
+                                    Edge Detection</a><br>
+                                <a
+                                    href="https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Feng-ming_Chang/dreamweaver/main">Student
+                                    project from ECE 5725 2015fa</a><br>
+                                <a href="http://filters.sourceforge.net/filterslist.htm">List of common image
+                                    filters</a><br>
+                                <a href="https://github.com/oarriaga/face_classification/blob/master/report.pdf">Face
+                                    classification</a><br>
+                                <a href="https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html">Mask
+                                    RCNN Resource</a><br>
+                            </div>
                             <div class="col-6">
                                 <h4>AWS, ML, and Server resources: </h4>
                                 <a href="https://aws.amazon.com/ec2/pricing/on-demand/">EC2 Instance Pricing</a> <br>
-                                <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html">Making S3 Requests</a><br>
+                                <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html">Making S3
+                                    Requests</a><br>
                                 <a href="https://aws.amazon.com/ec2/">AWS EC2 Documentation</a><br>
-                                <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda Documentation</a><br>
+                                <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
+                                    Documentation</a><br>
                                 <a href=" https://aws.amazon.com/greengrass/">AWS Greengrass Documentation</a><br>
-                                <a href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0">Flask applications with gunicorn and nginx</a><br>
+                                <a
+                                    href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0">Flask
+                                    applications with gunicorn and nginx</a><br>
                                 <a href="https://vsupalov.com/gunicorn-and-nginx/">Gunicorn and nginx</a><br>
-                                <a href="https://aws.amazon.com/blogs/machine-learning/how-to-deploy-deep-learning-models-with-aws-lambda-and-tensorflow/">Deep Learning Models with Lambda and TensorFlow</a><br>
-                            
+                                <a
+                                    href="https://aws.amazon.com/blogs/machine-learning/how-to-deploy-deep-learning-models-with-aws-lambda-and-tensorflow/">Deep
+                                    Learning Models with Lambda and TensorFlow</a><br>
+
 
                             </div>
                         </div>
@@ -1039,7 +1077,10 @@
                         </div>
                         <!-- Description -->
                         <div class="price-plan-desc">
-                            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">RPi.GPIO</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">GPIO</span>
+                            <!-- HTML generated using hilite.me -->
+                            <div
+                                style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+                                <pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">RPi.GPIO</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">GPIO</span>
 <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
 <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">os</span>
 <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">numpy</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">np</span>
@@ -1735,7 +1776,8 @@ w <span style="color: #333333">=</span> Wheesh()
     GPIO<span style="color: #333333">.</span>cleanup()
     w<span style="color: #333333">.</span>camera<span style="color: #333333">.</span>close()
     quit()
-</pre></div>
+</pre>
+                            </div>
 
                         </div>
                     </div>
