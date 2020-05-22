@@ -407,10 +407,6 @@
                                 highly-optimized image processing Python library, OpenCV. The next few sections will go
                                 in-depth into how each of the grouped image applications are actually implemented.</p>
 
-                            <p>Many of these effects were created using the highly-optimized image processing Python
-                                library, opencv. The next few sections will go in-depth into how each of the grouped
-                                image applications are actually implemented.</p>
-
                             <h3><u>Filters</u></h3>
                             <p>The filtering effects are grouped as such because the effects in this category mimic the
                                 iPhone or Instagram style filters. Much of the following work was adapted from <a
@@ -644,7 +640,7 @@
                             <p>
                                 Examples of Emotion Recognition and MaskRCNN predictions are shown below:
                             </p>
-                            <h4>Emotion Detection</h4>
+                            <h4>Emotion Detection Results</h4>
                             <div class="container">
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-4">
@@ -656,8 +652,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4>MaskRCNN</h4>
-                            <div class="container">
+                            <h4>MaskRCNN Results</h4>
+                            <div class="container" >
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/mask2.jpg" alt="mask2"></div>
@@ -714,7 +710,7 @@
                                 Flask controls the server logic, such as what to do when certain endpoints are called.
                                 An endpoint is the URL that the server is waiting to receive and can act on, in our case
                                 we have 2 endpoints for each of the models: url/mask/<image_str> and url/emotion/
-                                    <image_str>. We have python functions that are executed when either of these
+                                    <image_str>. We have Python functions that are executed when either of these
                                         endpoints are hit (we pass the image through model inference). In addition,
                                         Flask is a RESTful web framework, which means it only takes requests such as GET
                                         and POST. Thus, you must make GET requests to our endpoints. In addition, the
@@ -727,7 +723,7 @@
                                 of failed architectures here for future readers.
                             </p>
 
-                            <h5>AWS Iot Greengrass</h5>
+                            <h5>AWS IoT Greengrass</h5>
                             <p>
                                 First, we tried to use AWS IoT Greengrass. The name sounds useful right? However, it
                                 turns how this service is meant for controlling edge devices from a central server… not
@@ -857,11 +853,31 @@
                 <div class="col-12">
                     <div class="blog-details-text">
 
+                        <h4>Supporting videos</h4>
+                        <p>The scope of this project only looked at still image frames, but it is entirely possible to 
+                            record and process videos using OpenCV libraries. It would be interesting to then create different 
+                            video effects, such as slow motion, timelapse, boomerang, or moving average, 
+                            in addition to the traditional image processing effects which you can apply to each frame.
+                            </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-details-text">
+
                         <h4>Trying different servers and models</h4>
-                        <p>We only implemented 2 different models on 1 t2.medium instance. It would be interesting to
-                            try many other machine learning classifiers, such as object detection algorithms, and use
-                            more expensive instances, to speed up the computation as much as possible on the most
-                            computation heavy types of models.</p>
+                        <p>We only implemented 2 different models on 1 t2.medium instance. 
+                            It would be interesting to try many other machine learning classifiers, 
+                            such as different object detection algorithms, and use more expensive instances, 
+                            to speed up the computation as much as possible on the most computation heavy types of models.
+
+                            Specifically, we could try to use YOLO: Real Time Object Detection, in conjunction with video, 
+                            and output live transformations on to the piTFT. We could have YOLO run on compute-heavy servers, 
+                            or try TinyYOLO (a lightweight version of YOLO) on the Pi. Although, YOLO does not return Masks of 
+                            objects, it only returns the bounding boxes around them.
+                            </p>
 
                     </div>
                 </div>
