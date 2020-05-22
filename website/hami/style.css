@@ -976,6 +976,8 @@ input:focus {
   font-size: 18px;
   margin-bottom: 0;
   color: #707070; }
+.domain-text h5 {
+  text-align: justify; }
 
 .domain-search-form {
   position: relative;
@@ -2537,7 +2539,8 @@ input:focus {
   z-index: 1; }
   .blog-details-text p {
     font-size: 18px;
-    margin-bottom: 30px; }
+    margin-bottom: 30px;
+    text-align: justify; }
     @media only screen and (max-width: 767px) {
       .blog-details-text p {
         font-size: 16px; } }
