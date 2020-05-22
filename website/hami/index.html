@@ -172,7 +172,7 @@
             <div class="row align-items-center">
                 <div class="col-12 col-md-4">
                     <div class="domain-text mb-100">
-                        <h2>Introduction</h2>
+                        <h1 style="font-size: 60px;">Introduction</h1>
                         <div class="mb-15">
                             <img class="rounded mx-auto d-block" src="img/rpi-img/picam.jpg" alt="picam">
                         </div>
@@ -243,8 +243,9 @@
                         <p>The first three GPIO-connected physical buttons on a PiTFT screen control the transition
                             between states, and the fourth button quits the camera application. The touchscreen is used
                             to control actions in the menu state, which will trigger the display of the digital effects.
-                            Some of the menu options, particularly in the ML menu and Upload menu, will trigger calls to 
-                            the various Cloud resources the CloudCam is connected to. We further break down the implementation 
+                            Some of the menu options, particularly in the ML menu and Upload menu, will trigger calls to
+                            the various Cloud resources the CloudCam is connected to. We further break down the
+                            implementation
                             details of each component of CloudCam in the Implementation section.</p>
 
                     </div>
@@ -507,7 +508,8 @@
                             <h4>Blur and Sharpness</h4>
                             <p>The blur and sharpness adjustment effects are condensed into just one “blur” option,
                                 which involves the repeated application of either a blur or sharpness kernel, depending
-                                on a user’s input. If the + button is pressed, the image is filtered with a blur filter, like the one below.</p>
+                                on a user’s input. If the + button is pressed, the image is filtered with a blur filter,
+                                like the one below.</p>
                             <div class="row justify-content-center mb-15">
                                 <div>
                                     <img class="rounded mx-auto d-block" src="img/rpi-img/blur1.png" alt="blur1"></div>
@@ -521,7 +523,7 @@
 
                             <p> The result of blurring is exactly what it sounds like; the image
                                 looks fuzzier with details obscured. The result of the sharpening kernel is an image
-                                with enhanced edges and vibrant colors - almost like a colored-pencil sketch. 
+                                with enhanced edges and vibrant colors - almost like a colored-pencil sketch.
                             </p>
                             <div class="row justify-content-center mb-15">
                                 <div>
@@ -650,11 +652,12 @@
                                     <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/sad_man.jpg" alt="sad_man"></div>
                                     <div class="col-4">
-                                        <img class="rounded" src="img/rpi-img/neutral_woman.jpg" alt="neutral_woman"></div>
+                                        <img class="rounded" src="img/rpi-img/neutral_woman.jpg" alt="neutral_woman">
+                                    </div>
                                 </div>
                             </div>
                             <h4>MaskRCNN</h4>
-                            <div class="container" >
+                            <div class="container">
                                 <div class="row justify-content-center mb-15">
                                     <div class="col-4">
                                         <img class="rounded" src="img/rpi-img/mask2.jpg" alt="mask2"></div>
@@ -975,45 +978,56 @@
                         <div class="row justify-content-center mb-15" style="margin:5px">
                             <div class="col-6">
                                 <h4>Image Processing resources:</h4>
-                                <a href="https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html">Basic
+                                <a style="color:blue"
+                                    href="https://docs.opencv.org/3.4/d3/dc1/tutorial_basic_linear_transform.html">Basic
                                     Linear Transforms</a><br>
-                                <a href="https://docs.opencv.org/master/d1/d5c/tutorial_py_kmeans_opencv.htm">KMeans in
+                                <a style="color:blue"
+                                    href="https://docs.opencv.org/master/d1/d5c/tutorial_py_kmeans_opencv.htm">KMeans in
                                     Image Processing</a><br>
-                                <a href="https://docs.opencv.org/3.4.8/d4/d13/tutorial_py_filtering.htmll">Image
+                                <a style="color:blue"
+                                    href="https://docs.opencv.org/3.4.8/d4/d13/tutorial_py_filtering.htmll">Image
                                     Filtering in OpenCV</a><br>
-                                <a
+                                <a style="color:blue"
                                     href="https://towardsdatascience.com/python-opencv-building-instagram-like-image-filters-5c482c1c5079">Building
                                     Instagram-Like Image Filters</a><br>
-                                <a
+                                <a style="color:blue"
                                     href="https://stackoverflow.com/questions/55508615/how-to-pixelate-image-using-opencv-in-python">Pixelating
                                     Images</a><br>
-                                <a
+                                <a style="color:blue"
                                     href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html">Canny
                                     Edge Detection</a><br>
-                                <a
+                                <a style="color:blue"
                                     href="https://courses.ece.cornell.edu/ece5990/ECE5990_Fall15_FinalProjects/Feng-ming_Chang/dreamweaver/main">Student
                                     project from ECE 5725 2015fa</a><br>
-                                <a href="http://filters.sourceforge.net/filterslist.htm">List of common image
+                                <a style="color:blue" href="http://filters.sourceforge.net/filterslist.htm">List of
+                                    common image
                                     filters</a><br>
-                                <a href="https://github.com/oarriaga/face_classification/blob/master/report.pdf">Face
+                                <a style="color:blue"
+                                    href="https://github.com/oarriaga/face_classification/blob/master/report.pdf">Face
                                     classification</a><br>
-                                <a href="https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html">Mask
+                                <a style="color:blue"
+                                    href="https://gluon-cv.mxnet.io/build/examples_instance/demo_mask_rcnn.html">Mask
                                     RCNN Resource</a><br>
                             </div>
                             <div class="col-6">
                                 <h4>AWS, ML, and Server resources: </h4>
-                                <a href="https://aws.amazon.com/ec2/pricing/on-demand/">EC2 Instance Pricing</a> <br>
-                                <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html">Making S3
+                                <a style="color:blue" href="https://aws.amazon.com/ec2/pricing/on-demand/">EC2 Instance
+                                    Pricing</a> <br>
+                                <a style="color:blue"
+                                    href="https://docs.aws.amazon.com/AmazonS3/latest/dev/MakingRequests.html">Making S3
                                     Requests</a><br>
-                                <a href="https://aws.amazon.com/ec2/">AWS EC2 Documentation</a><br>
-                                <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
+                                <a style="color:blue" href="https://aws.amazon.com/ec2/">AWS EC2 Documentation</a><br>
+                                <a style="color:blue"
+                                    href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
                                     Documentation</a><br>
-                                <a href=" https://aws.amazon.com/greengrass/">AWS Greengrass Documentation</a><br>
-                                <a
+                                <a style="color:blue" href=" https://aws.amazon.com/greengrass/">AWS Greengrass
+                                    Documentation</a><br>
+                                <a style="color:blue"
                                     href="https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04?fbclid=IwAR3DyOy-VuA83ccpaB4jJgcAFkIZGFCDzFuVgSzKwKEpiS_CtN_fL5Xh9v0">Flask
                                     applications with gunicorn and nginx</a><br>
-                                <a href="https://vsupalov.com/gunicorn-and-nginx/">Gunicorn and nginx</a><br>
-                                <a
+                                <a style="color:blue" href="https://vsupalov.com/gunicorn-and-nginx/">Gunicorn and
+                                    nginx</a><br>
+                                <a style="color:blue"
                                     href="https://aws.amazon.com/blogs/machine-learning/how-to-deploy-deep-learning-models-with-aws-lambda-and-tensorflow/">Deep
                                     Learning Models with Lambda and TensorFlow</a><br>
 
